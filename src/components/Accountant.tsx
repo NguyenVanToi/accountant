@@ -14,9 +14,11 @@ import {
 import { arrowDown, arrowUp, addOutline } from 'ionicons/icons';
 import CurrencyFormat from 'react-currency-format';
 import CreateActivity from './CreateActivity';
+import { connect } from 'react-redux';
 
-const Accountant: React.FC = () => {
+const Accountant: React.FC = (props: any) => {
 
+    console.log(props.activities);
     const [list, setList] = useState([
         {
             id: 1,
@@ -106,4 +108,13 @@ const Accountant: React.FC = () => {
     );
 };
 
-export default Accountant;
+const mapStateToProps = (state: any) => {
+    return {
+        activities: Object.values(state.activity)
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    {}
+)(Accountant);
