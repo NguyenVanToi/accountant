@@ -1,16 +1,21 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
+import Accountant from '../components/Accountant';
 import './Page.css';
+import Category from '../components/Category';
 
 const Page: React.FC = () => {
 
   let { name } = useParams<{ name: string; }>();
+  let component: any = null;
   switch (name) {
       case 'accountant':
           name = 'Chi tiêu';
+          component = <Accountant />;
           break;
       case 'category':
           name = 'Quản lý danh mục';
+          component = <Category />
           break;
       default:
           name = 'page';
@@ -29,11 +34,7 @@ const Page: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">{name}</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+          {component ? component : null}
       </IonContent>
     </IonPage>
   );
