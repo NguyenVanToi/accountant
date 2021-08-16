@@ -1,4 +1,11 @@
-import { ActionInterface, DELETE_ACTIVITY, EDIT_ACTIVITY, FETCH_ACTIVITIES, FETCH_ACTIVITY } from '../actions/type';
+import {
+    ActionInterface,
+    CREATE_ACTIVITY,
+    DELETE_ACTIVITY,
+    EDIT_ACTIVITY,
+    FETCH_ACTIVITIES,
+    FETCH_ACTIVITY
+} from '../actions/type';
 import { reduce } from 'lodash';
 import { AccountingType } from '../../_core/constants';
 const INITIAL_STATE = {
@@ -14,9 +21,15 @@ export default (state = INITIAL_STATE, action: ActionInterface) => {
             const taskInComes = activities.filter((activity: any ) => activity.type === AccountingType.INCOME) || [];
             return {
                 ...state,
-                amountIn: reduce(taskOutComes, (init: number, activity: any) => {return init + (activity.amount || 0)}, 0),
-                amountOut: reduce(taskInComes, (init: number, activity: any) => {return init + (activity.amount || 0)}, 0)
+                amountIn: reduce(taskInComes, (init: number, activity: any) => {return init + (activity.amount || 0)}, 0),
+                amountOut: reduce(taskOutComes, (init: number, activity: any) => {return init + (activity.amount || 0)}, 0)
             }
+        case CREATE_ACTIVITY:
+            return {
+                ...state,
+                amountIn: action.payload.type === AccountingType.INCOME ? state.amountIn + action.payload.amount : state.amountIn,
+                amountOut: action.payload.type === AccountingType.OUTCOME ? state.amountOut + action.payload.amount : state.amountOut,
+            };
         case EDIT_ACTIVITY:
             const oldPrice = action.payload.oldPrice;
             const activity = action.payload.acivity;
@@ -28,8 +41,8 @@ export default (state = INITIAL_STATE, action: ActionInterface) => {
         case DELETE_ACTIVITY:
             return {
                 ...state,
-                amountIn: action.payload.type === AccountingType.INCOME ? state.amountIn + action.payload.amount : state.amountIn,
-                amountOut: action.payload.type === AccountingType.OUTCOME ? state.amountOut + action.payload.amount : state.amountOut,
+                amountIn: action.payload.type === AccountingType.INCOME ? state.amountIn - action.payload.amount : state.amountIn,
+                amountOut: action.payload.type === AccountingType.OUTCOME ? state.amountOut - action.payload.amount : state.amountOut,
             };
 
         default:

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './../global.css';
+import './Accountant.css';
 import { AccountingType, UNIT } from '../_core/constants';
 import {
     IonFab, IonFabButton,
@@ -9,35 +10,31 @@ import {
     IonItemOptions,
     IonItemSliding,
     IonLabel,
-    IonList, useIonModal
+    IonList, IonNote, useIonModal
 } from '@ionic/react';
 import { arrowDown, arrowUp, addOutline } from 'ionicons/icons';
 import CurrencyFormat from 'react-currency-format';
 import CreateActivity from './CreateActivity';
 import { connect } from 'react-redux';
+import { createActivity, deleteActivity, editActivity, fetchActivities } from '../redux/actions';
+import { Activity } from '../_core/api/api';
 
 const Accountant: React.FC = (props: any) => {
 
-    console.log(props.activities);
-    const [list, setList] = useState([
-        {
-            id: 1,
-            type: AccountingType.INCOME,
-            name: 'Tien dien',
-            amount: 431000,
-            description: 'hihi',
-            createdAt: '22/10/2021'
-        },
-        {
-            id: 2,
-            type: AccountingType.OUTCOME,
-            name: 'Tien dien',
-            amount: 431000,
-            description: 'hihi',
-            createdAt: '22/10/2021'
+    const [list, setList] = useState<Activity[]>([]);
+    const [activitySelected, setActivitySelected] = useState<Activity | null>(null);
+
+    useEffect(() => {
+        const fetchActivities = async () => {
+            props.fetchActivities();
         }
-    ]);
-    const [activitySelected, setActivitySelected] = useState(null);
+
+        fetchActivities();
+    }, []);
+
+    useEffect(() => {
+        setList(props.activities);
+    }, [props.activities]);
 
     const handleDismiss = () => {
         dismiss();
@@ -45,7 +42,9 @@ const Accountant: React.FC = (props: any) => {
 
     const [present, dismiss] = useIonModal(CreateActivity, {
         onDismiss: handleDismiss,
-        activity: activitySelected
+        activity: activitySelected,
+        createActivity: props.createActivity,
+        editActivity: props.editActivity
     });
 
     const createTask = () => {
@@ -54,20 +53,27 @@ const Accountant: React.FC = (props: any) => {
             cssClass: 'modal custom',
         });
     }
+    const updateActivity = (activity: Activity) => {
+       setActivitySelected(activity);
+        present({
+            cssClass: 'modal custom',
+        });
+    }
 
     const renderList = () => {
         return (
-            <IonList>
+            <IonList className="list">
                 {
                     list.map((item: any) => (
                         <IonItemSliding key={item?.id}>
-                            <IonItem>
+                            <IonItem className="item" onClick={() => updateActivity(item)}>
                                 <IonIcon
+                                    slot="start"
                                     icon={item.type === AccountingType.INCOME ? arrowDown : arrowUp}
                                     className={`icon ${item.type === AccountingType.INCOME ? 'in' : 'out'}`}
                                 />
                                 <IonLabel>{item?.name}</IonLabel>
-                                <div slot="end" className={`price ${item.type === AccountingType.INCOME ? 'in' : 'out'}`}>
+                                <div className={`price`}>
                                     <CurrencyFormat
                                         value={item?.amount}
                                         displayType={'text'}
@@ -90,6 +96,35 @@ const Accountant: React.FC = (props: any) => {
 
     return (
         <div className="container">
+            <div className="summary">
+                <h3>Ngày 16/08/2021</h3>
+                <IonList>
+                    <IonItem lines="none">
+                        <IonLabel>Thu: </IonLabel>
+                        <div className="price in" slot="end">
+                            <CurrencyFormat
+                                value={props?.amountIn}
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                renderText={(value: any) => <div>{value}</div>}
+                            />
+                            <span className="unit">{UNIT}</span>
+                        </div>
+                    </IonItem>
+                    <IonItem lines="none">
+                        <IonLabel>Chi: </IonLabel>
+                        <div className="price out" slot="end">
+                            <CurrencyFormat
+                                value={props?.amountOut}
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                renderText={(value: any) => <div>{value}</div>}
+                            />
+                            <span className="unit">{UNIT}</span>
+                        </div>
+                    </IonItem>
+                </IonList>
+            </div>
             {
                 renderList()
             }
@@ -110,11 +145,18 @@ const Accountant: React.FC = (props: any) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        activities: Object.values(state.activity)
+        activities: Object.values(state.activity),
+        amountIn: state.accounting.amountIn,
+        amountOut: state.accounting.amountOut,
     }
 }
 
 export default connect(
     mapStateToProps,
-    {}
+    {
+        fetchActivities,
+        createActivity,
+        editActivity,
+        deleteActivity
+    }
 )(Accountant);

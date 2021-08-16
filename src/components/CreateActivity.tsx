@@ -11,15 +11,26 @@ import { useForm } from 'react-hook-form';
 import SelectCustom from '../partials/SelectCustom';
 import { useState } from 'react';
 import { AccountingType } from '../_core/constants';
+import { Activity } from '../_core/api/api';
 const CreateActivity: React.FC<{
     activity: any
     onDismiss: () => void;
-}> = ({  activity, onDismiss }) => {
+    createActivity: any,
+    updateActivity: any,
+}> = ({  activity, onDismiss, createActivity, updateActivity }) => {
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {...activity}
     });
     const onSubmit = (value: any) => {
-        console.log('createActivity', value);
+        const act: Activity = { ...value };
+        if (activity && activity.id) {
+            updateActivity(act);
+            onDismiss();
+            return;
+        }
+        createActivity(act);
+        onDismiss();
+        return;
     };
     const [categories, setCategories] = useState([
         {
@@ -78,6 +89,7 @@ const CreateActivity: React.FC<{
                     <IonItem>
                         <IonLabel>Số lượng</IonLabel>
                         <IonInput
+                            type="number"
                             {...register("amount", { required: true })}
                         />
                     </IonItem>
@@ -88,7 +100,7 @@ const CreateActivity: React.FC<{
                     <IonItem>
                         <IonLabel>Danh mục</IonLabel>
                         <SelectCustom
-                            name="category"
+                            name="categoryId"
                             {...{ control, register,  choices: categories }}
                         />
                     </IonItem>
@@ -109,7 +121,7 @@ const CreateActivity: React.FC<{
                     <IonItem>
                         <IonLabel>Ghi chú</IonLabel>
                         <IonTextarea
-                            {...register("amount", { required: true })}
+                            {...register("description", { required: true })}
                             rows={5}
                         />
                     </IonItem>
