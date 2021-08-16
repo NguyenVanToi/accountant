@@ -10,15 +10,17 @@ import {
     IonItemOptions,
     IonItemSliding,
     IonLabel,
-    IonList, IonNote, useIonModal
+    IonList,
+    useIonModal
 } from '@ionic/react';
-import { arrowDown, arrowUp, addOutline } from 'ionicons/icons';
+import { arrowDown, arrowUp, addOutline, trashBinOutline } from 'ionicons/icons';
 import CurrencyFormat from 'react-currency-format';
 import CreateActivity from './CreateActivity';
 import { connect } from 'react-redux';
 import { createActivity, deleteActivity, editActivity, fetchActivities } from '../redux/actions';
 import { Activity } from '../_core/api/api';
 import { fetchCategories } from '../redux/actions/categoryAction';
+import moment from 'moment';
 
 const Accountant: React.FC = (props: any) => {
 
@@ -61,6 +63,10 @@ const Accountant: React.FC = (props: any) => {
         });
     }
 
+    const deleteActivity = (activity: Activity) => {
+        props.deleteActivity(activity);
+    }
+
     const renderList = () => {
         return (
             <IonList className="list">
@@ -85,8 +91,9 @@ const Accountant: React.FC = (props: any) => {
                                 </div>
                             </IonItem>
                             <IonItemOptions side="end">
-                                <IonItemOption onClick={() => {
-                                }}>Unread</IonItemOption>
+                                <IonItemOption color="danger" onClick={() => deleteActivity(item)}>
+                                    <IonIcon icon={trashBinOutline} />
+                                </IonItemOption>
                             </IonItemOptions>
                         </IonItemSliding>
                     ))
@@ -98,7 +105,7 @@ const Accountant: React.FC = (props: any) => {
     return (
         <div className="container">
             <div className="summary">
-                <h3>Ngày 16/08/2021</h3>
+                <h3>Ngày {moment().format('DD/MM/YYYY')}</h3>
                 <IonList>
                     <IonItem lines="none">
                         <IonLabel>Thu: </IonLabel>
@@ -124,6 +131,22 @@ const Accountant: React.FC = (props: any) => {
                             <span className="unit">{UNIT}</span>
                         </div>
                     </IonItem>
+                    <IonItem lines="none">
+                        <IonLabel className="u700">TỔNG: </IonLabel>
+                        <div className={`price u700 ${(props?.amountIn - props?.amountOut) > 0 ? 'in' : 'out'}`} slot="end">
+                            <CurrencyFormat
+                                value={props?.amountIn - props?.amountOut}
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                renderText={(value: any) => (
+                                    <div>{
+                                        `${(props?.amountIn - props?.amountOut) > 0 ? '+' : '-'}  ${value}`
+                                    }</div>
+                                )}
+                            />
+                            <span className="unit">{UNIT}</span>
+                        </div>
+                    </IonItem>
                 </IonList>
             </div>
             {
@@ -145,7 +168,6 @@ const Accountant: React.FC = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => {
-    console.log(state);
     return {
         activities: Object.values(state.activity),
         amountIn: state.accounting.amountIn,

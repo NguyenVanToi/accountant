@@ -1,11 +1,17 @@
 import { CREATE_ACTIVITY, DELETE_ACTIVITY, EDIT_ACTIVITY, FETCH_ACTIVITIES } from './type';
 import { AccountingApi } from '../../_core/api/accountingApi';
 import { Activity } from '../../_core/api/api';
+import moment from 'moment';
 
-export const fetchActivities = (accountId?: string) => async (dispatch: any) =>{
+export const fetchActivities = (accountId?: string, createdAt?: string) => async (dispatch: any) =>{
     const api = new AccountingApi();
+    if (!createdAt) {
+        createdAt = moment().startOf('day').toISOString();
+    }
     // { filter: [`accountId||$eq||${accountId}`] }
-    const response = await api.activities.getManyBaseActivityControllerActivity();
+    const response = await api.activities.getManyBaseActivityControllerActivity({
+        filter: [`created_at||$gte||${createdAt}`]
+    });
     return dispatch({type: FETCH_ACTIVITIES, payload: response.data});
 }
 

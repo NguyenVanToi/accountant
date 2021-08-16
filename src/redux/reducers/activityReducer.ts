@@ -19,7 +19,7 @@ export default (state = {}, action: ActionInterface) => {
         case CREATE_ACTIVITY:
             return { ...state, [action.payload.id]: action.payload };
         case DELETE_ACTIVITY:
-            return omit(state, action.payload);
+            return omit(state, action.payload.id);
         default:
             return state;
     }

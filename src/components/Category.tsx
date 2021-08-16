@@ -11,7 +11,7 @@ import {
     IonList,
     useIonModal
 } from '@ionic/react';
-import { pizzaOutline, flashOutline, addOutline } from 'ionicons/icons';
+import { addOutline, trashBinOutline } from 'ionicons/icons';
 import CreateCategory from './CreateCategory';
 import { connect } from 'react-redux';
 import { Category } from '../_core/api/api';
@@ -53,6 +53,10 @@ const CategoryView: React.FC = (props: any) => {
         });
     }
 
+    const deleteCategory = (category: Category) => {
+        props.deleteCategory(category);
+    }
+
     const renderList = () => {
         return (
             <IonList>
@@ -64,8 +68,9 @@ const CategoryView: React.FC = (props: any) => {
                                 <IonLabel>{item?.code} - {item?.name}</IonLabel>
                             </IonItem>
                             <IonItemOptions side="end">
-                                <IonItemOption onClick={() => {
-                                }}>Unread</IonItemOption>
+                                <IonItemOption color="danger" onClick={() => deleteCategory(item)}>
+                                    <IonIcon icon={trashBinOutline} />
+                                </IonItemOption>
                             </IonItemOptions>
                         </IonItemSliding>
                     ))

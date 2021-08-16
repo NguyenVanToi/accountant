@@ -30,6 +30,10 @@ h5, p, span {
   margin: 0;
 }
 
+.u700 {
+  font-weight: 700;
+}
+
 .caption {
   font-size: 12px;
   margin-top: .5rem;

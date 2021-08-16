@@ -22,8 +22,8 @@ export const editCategory = (category: Category) => async (dispatch: any) =>{
     const response = await api.category.updateOneBaseCategoryControllerCategory(category.id, category as UpdateCategoryDto);
     return dispatch({type: EDIT_CATEGORY, payload: response.data});
 }
-export const deleteCategory = (categoryId: number) => async (dispatch: any) =>{
+export const deleteCategory = (category: Category) => async (dispatch: any) =>{
     const api = new AccountingApi();
-    const response = await api.category.deleteOneBaseCategoryControllerCategory(categoryId);
-    return dispatch({type: DELETE_CATEGORY, payload: response.data});
+    await api.category.deleteOneBaseCategoryControllerCategory(category.id);
+    return dispatch({type: DELETE_CATEGORY, payload: category});
 }

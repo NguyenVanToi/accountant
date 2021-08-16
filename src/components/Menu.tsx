@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
-import { bookmarkOutline, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp } from 'ionicons/icons';
+import { bookmarkOutline, newspaperOutline, layersOutline, paperPlaneSharp } from 'ionicons/icons';
 import './Menu.css';
 
 interface AppPage {
@@ -25,18 +25,18 @@ const appPages: AppPage[] = [
   {
     title: 'Chi tiêu',
     url: '/page/accountant',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp
+    iosIcon: newspaperOutline,
+    mdIcon: newspaperOutline
   },
   {
     title: 'Quản lý danh mục',
     url: '/page/category',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp
+    iosIcon: layersOutline,
+    mdIcon: layersOutline
   }
 ];
 
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+const labels: any[] = [];
 
 const Menu: React.FC = () => {
   const location = useLocation();
@@ -59,15 +59,15 @@ const Menu: React.FC = () => {
           })}
         </IonList>
 
-        <IonList id="labels-list">
-          <IonListHeader>Danh mục</IonListHeader>
-          {labels.map((label, index) => (
-            <IonItem lines="none" key={index}>
-              <IonIcon slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
+        {/*<IonList id="labels-list">*/}
+        {/*  <IonListHeader>Danh mục</IonListHeader>*/}
+        {/*  {labels.map((label, index) => (*/}
+        {/*    <IonItem lines="none" key={index}>*/}
+        {/*      <IonIcon slot="start" icon={bookmarkOutline} />*/}
+        {/*      <IonLabel>{label}</IonLabel>*/}
+        {/*    </IonItem>*/}
+        {/*  ))}*/}
+        {/*</IonList>*/}
       </IonContent>
     </IonMenu>
   );

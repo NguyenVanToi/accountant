@@ -37,10 +37,10 @@ const CreateActivity: React.FC<{
         let name = '';
         switch (type) {
             case AccountingType.INCOME:
-                name = 'Vào';
+                name = 'Thu';
                 break;
             case AccountingType.OUTCOME:
-                name = 'Ra';
+                name = 'Chi';
                 break;
             default:
                 name = 'Không xác định';

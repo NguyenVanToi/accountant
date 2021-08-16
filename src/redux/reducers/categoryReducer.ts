@@ -19,7 +19,7 @@ export default (state = {}, action: ActionInterface) => {
         case CREATE_CATEGORY:
             return { ...state, [action.payload.id]: action.payload };
         case DELETE_CATEGORY:
-            return omit(state, action.payload);
+            return omit(state, action.payload.id);
         default:
             return state;
     }
