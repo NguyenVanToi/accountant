@@ -17,7 +17,7 @@ const SelectCustom = ({ name, control, choices}: any) => {
                     value={valueWatch}
                 >
                     {
-                        choices.map((choice: any) => {
+                        (choices || []).map((choice: any) => {
                             return <IonSelectOption value={choice.id} key={choice.id}>{choice.name}</IonSelectOption>
                         })
                     }

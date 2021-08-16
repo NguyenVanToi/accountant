@@ -25,6 +25,14 @@ export interface GetManyActivityResponseDto {
   pageCount: number;
 }
 
+export interface GetManyCategoryResponseDto {
+  data: Category[];
+  count: number;
+  total: number;
+  page: number;
+  pageCount: number;
+}
+
 export interface Category {
   id: number;
   code: string;
@@ -32,6 +40,12 @@ export interface Category {
   type: string;
   image: string;
   description: string;
+
+  /** @format date-time */
+  created_at: string;
+
+  /** @format date-time */
+  updated_at: string;
   activities: Activity[];
 }
 
@@ -143,9 +157,27 @@ export interface UpdateActivityDto {
   category?: Category;
 }
 
-export type CreateCategoryDto = object;
+export interface CreateCategoryDto {
+  code?: string;
+  name?: string;
+  type?: string;
+  image?: string;
+  description?: string;
+  activities?: Activity[];
+}
 
-export type UpdateCategoryDto = object;
+export interface CreateManyCategoryDto {
+  bulk: CreateCategoryDto[];
+}
+
+export interface UpdateCategoryDto {
+  code?: string;
+  name?: string;
+  type?: string;
+  image?: string;
+  description?: string;
+  activities?: Activity[];
+}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -356,7 +388,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Tracking api example
+ * @title Accounting API
  * @version 1.0
  * @contact
  *
@@ -786,43 +818,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name CategoryControllerCreate
-     * @request POST:/category
-     */
-    categoryControllerCreate: (data: CreateCategoryDto, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/category`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @name CategoryControllerFindAll
-     * @request GET:/category
-     */
-    categoryControllerFindAll: (params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/category`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @name CategoryControllerFindOne
+     * @tags Categories
+     * @name GetOneBaseCategoryControllerCategory
+     * @summary Retrieve a single Category
      * @request GET:/category/{id}
      */
-    categoryControllerFindOne: (id: string, params: RequestParams = {}) =>
-      this.request<string, any>({
+    getOneBaseCategoryControllerCategory: (
+      id: number,
+      query?: { fields?: string[]; join?: string[]; cache?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<Category, any>({
         path: `/category/${id}`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -830,11 +839,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name CategoryControllerUpdate
+     * @tags Categories
+     * @name UpdateOneBaseCategoryControllerCategory
+     * @summary Update a single Category
      * @request PATCH:/category/{id}
      */
-    categoryControllerUpdate: (id: string, data: UpdateCategoryDto, params: RequestParams = {}) =>
-      this.request<string, any>({
+    updateOneBaseCategoryControllerCategory: (id: number, data: UpdateCategoryDto, params: RequestParams = {}) =>
+      this.request<Category, any>({
         path: `/category/${id}`,
         method: "PATCH",
         body: data,
@@ -846,13 +857,99 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name CategoryControllerRemove
+     * @tags Categories
+     * @name ReplaceOneBaseCategoryControllerCategory
+     * @summary Replace a single Category
+     * @request PUT:/category/{id}
+     */
+    replaceOneBaseCategoryControllerCategory: (id: number, data: Category, params: RequestParams = {}) =>
+      this.request<Category, any>({
+        path: `/category/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Categories
+     * @name DeleteOneBaseCategoryControllerCategory
+     * @summary Delete a single Category
      * @request DELETE:/category/{id}
      */
-    categoryControllerRemove: (id: string, params: RequestParams = {}) =>
-      this.request<string, any>({
+    deleteOneBaseCategoryControllerCategory: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
         path: `/category/${id}`,
         method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Categories
+     * @name GetManyBaseCategoryControllerCategory
+     * @summary Retrieve multiple Categories
+     * @request GET:/category
+     */
+    getManyBaseCategoryControllerCategory: (
+      query?: {
+        fields?: string[];
+        s?: string;
+        filter?: string[];
+        or?: string[];
+        sort?: string[];
+        join?: string[];
+        limit?: number;
+        offset?: number;
+        page?: number;
+        cache?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetManyCategoryResponseDto | Category[], any>({
+        path: `/category`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Categories
+     * @name CreateOneBaseCategoryControllerCategory
+     * @summary Create a single Category
+     * @request POST:/category
+     */
+    createOneBaseCategoryControllerCategory: (data: CreateCategoryDto, params: RequestParams = {}) =>
+      this.request<Category, any>({
+        path: `/category`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Categories
+     * @name CreateManyBaseCategoryControllerCategory
+     * @summary Create multiple Categories
+     * @request POST:/category/bulk
+     */
+    createManyBaseCategoryControllerCategory: (data: CreateManyCategoryDto, params: RequestParams = {}) =>
+      this.request<Category[], any>({
+        path: `/category/bulk`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

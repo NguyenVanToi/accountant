@@ -18,6 +18,7 @@ import CreateActivity from './CreateActivity';
 import { connect } from 'react-redux';
 import { createActivity, deleteActivity, editActivity, fetchActivities } from '../redux/actions';
 import { Activity } from '../_core/api/api';
+import { fetchCategories } from '../redux/actions/categoryAction';
 
 const Accountant: React.FC = (props: any) => {
 
@@ -27,6 +28,7 @@ const Accountant: React.FC = (props: any) => {
     useEffect(() => {
         const fetchActivities = async () => {
             props.fetchActivities();
+            props.fetchCategories()
         }
 
         fetchActivities();
@@ -44,17 +46,16 @@ const Accountant: React.FC = (props: any) => {
         onDismiss: handleDismiss,
         activity: activitySelected,
         createActivity: props.createActivity,
-        editActivity: props.editActivity
+        editActivity: props.editActivity,
+        categories: props.categories
     });
 
-    const createTask = () => {
-        setActivitySelected(null);
-        present({
-            cssClass: 'modal custom',
-        });
-    }
-    const updateActivity = (activity: Activity) => {
-       setActivitySelected(activity);
+    const handleActivity = (activity?: Activity) => {
+        if (activity && activity.id) {
+            setActivitySelected(activity);
+        } else {
+            setActivitySelected(null);
+        }
         present({
             cssClass: 'modal custom',
         });
@@ -66,7 +67,7 @@ const Accountant: React.FC = (props: any) => {
                 {
                     list.map((item: any) => (
                         <IonItemSliding key={item?.id}>
-                            <IonItem className="item" onClick={() => updateActivity(item)}>
+                            <IonItem className="item" onClick={() => handleActivity(item)}>
                                 <IonIcon
                                     slot="start"
                                     icon={item.type === AccountingType.INCOME ? arrowDown : arrowUp}
@@ -129,7 +130,7 @@ const Accountant: React.FC = (props: any) => {
                 renderList()
             }
             <IonFab
-                onClick={createTask}
+                onClick={() => handleActivity()}
                 vertical="bottom"
                 horizontal="end"
                 slot="fixed"
@@ -144,10 +145,12 @@ const Accountant: React.FC = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => {
+    console.log(state);
     return {
         activities: Object.values(state.activity),
         amountIn: state.accounting.amountIn,
         amountOut: state.accounting.amountOut,
+        categories: Object.values(state.category)
     }
 }
 
@@ -157,6 +160,7 @@ export default connect(
         fetchActivities,
         createActivity,
         editActivity,
-        deleteActivity
+        deleteActivity,
+        fetchCategories
     }
 )(Accountant);

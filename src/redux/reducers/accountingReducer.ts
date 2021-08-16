@@ -31,8 +31,9 @@ export default (state = INITIAL_STATE, action: ActionInterface) => {
                 amountOut: action.payload.type === AccountingType.OUTCOME ? state.amountOut + action.payload.amount : state.amountOut,
             };
         case EDIT_ACTIVITY:
+            console.log('edit', action);
             const oldPrice = action.payload.oldPrice;
-            const activity = action.payload.acivity;
+            const activity = action.payload.activity;
             return {
                 ...state,
                 amountIn: activity.type === AccountingType.INCOME ? state.amountIn - oldPrice + activity.amount : state.amountIn,

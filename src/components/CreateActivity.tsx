@@ -9,22 +9,23 @@ import {
 import { checkmarkOutline, arrowBackOutline } from 'ionicons/icons';
 import { useForm } from 'react-hook-form';
 import SelectCustom from '../partials/SelectCustom';
-import { useState } from 'react';
 import { AccountingType } from '../_core/constants';
-import { Activity } from '../_core/api/api';
+import { Activity, Category } from '../_core/api/api';
 const CreateActivity: React.FC<{
     activity: any
     onDismiss: () => void;
     createActivity: any,
-    updateActivity: any,
-}> = ({  activity, onDismiss, createActivity, updateActivity }) => {
+    editActivity: any,
+    categories: Category[]
+}> = ({  activity, onDismiss, createActivity, editActivity, categories }) => {
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {...activity}
     });
     const onSubmit = (value: any) => {
+        console.log('activity');
         const act: Activity = { ...value };
         if (activity && activity.id) {
-            updateActivity(act);
+            editActivity(act);
             onDismiss();
             return;
         }
@@ -32,18 +33,6 @@ const CreateActivity: React.FC<{
         onDismiss();
         return;
     };
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            name: 'Ăn',
-            type: 'EAT'
-        },
-        {
-            id: 2,
-            name: 'Điện',
-            type: 'ELECTRIC'
-        },
-    ]);
     const accountingTypes = Object.values(AccountingType).map((type) => {
         let name = '';
         switch (type) {
@@ -121,12 +110,10 @@ const CreateActivity: React.FC<{
                     <IonItem>
                         <IonLabel>Ghi chú</IonLabel>
                         <IonTextarea
-                            {...register("description", { required: true })}
+                            {...register("description", { required: false })}
                             rows={5}
                         />
                     </IonItem>
-                    {errors.description && <span className="mess-error">(*) Bắt buộc.</span>}
-
                 </div>
             </form>
             <IonFab

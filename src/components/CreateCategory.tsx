@@ -2,21 +2,34 @@ import {
     IonButton,
     IonButtons, IonFab, IonFabButton,
     IonHeader,
-    IonIcon, IonInput, IonItem, IonLabel, IonSelect, IonSelectOption, IonTextarea,
+    IonIcon, IonInput, IonItem, IonLabel, IonTextarea,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
 import { checkmarkOutline, arrowBackOutline } from 'ionicons/icons';
 import { useForm } from 'react-hook-form';
+import { Category } from '../_core/api/api';
+import { editCategory } from '../redux/actions/categoryAction';
 const CreateCategory: React.FC<{
     category: any
     onDismiss: () => void;
-}> = ({  category, onDismiss }) => {
-    const { register, handleSubmit, control, formState: { errors } } = useForm({
+    editCategory: any,
+    createCategory: any,
+}> = ({  category, onDismiss, editCategory, createCategory }) => {
+    const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {...category}
     });
     const onSubmit = (value: any) => {
-        console.log('createActivity', value);
+        console.log('category', value);
+        const cate: Category = { ...value };
+        if (category && category.id) {
+            editCategory(cate);
+            onDismiss();
+            return;
+        }
+        createCategory(cate);
+        onDismiss();
+        return;
     };
 
     return (
@@ -42,16 +55,24 @@ const CreateCategory: React.FC<{
                     </IonItem>
                     {errors.name && <span className="mess-error">(*) Bắt buộc.</span>}
                 </div>
+                <div className="form-control">
+                    <IonItem>
+                        <IonLabel>Code</IonLabel>
+                        <IonInput
+                            {...register("code", { required: true })}
+                        />
+                    </IonItem>
+                    {errors.code && <span className="mess-error">(*) Bắt buộc.</span>}
+                </div>
 
                 <div className="form-control">
                     <IonItem>
                         <IonLabel>Ghi chú</IonLabel>
                         <IonTextarea
-                            {...register("amount", { required: true })}
+                            {...register("description", { required: false })}
                             rows={5}
                         />
                     </IonItem>
-                    {errors.description && <span className="mess-error">(*) Bắt buộc.</span>}
 
                 </div>
             </form>
