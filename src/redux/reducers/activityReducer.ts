@@ -11,11 +11,11 @@ import { omit, mapKeys } from 'lodash';
 export default (state = {}, action: ActionInterface) => {
     switch (action.type) {
         case FETCH_ACTIVITIES:
-            return {...state, ...mapKeys(action.payload, 'id')};
+            return {...mapKeys(action.payload, 'id')};
         case FETCH_ACTIVITY:
             return { ...state, [action.payload.id]: action.payload };
         case EDIT_ACTIVITY:
-            return { ...state, [action.payload.id]: action.payload };
+            return { ...state, [action.payload.activity.id]: action.payload.activity };
         case CREATE_ACTIVITY:
             return { ...state, [action.payload.id]: action.payload };
         case DELETE_ACTIVITY:
