@@ -37,7 +37,6 @@ export interface Category {
   id: number;
   code: string;
   name: string;
-  type: string;
   image: string;
   description: string;
 
@@ -55,6 +54,9 @@ export interface Activity {
   amount: number;
   type: string;
   description: string;
+  images: string[];
+  categoryId: number;
+  accountId: number;
 
   /** @format date-time */
   created_at: string;
@@ -140,6 +142,9 @@ export interface CreateActivityDto {
   amount?: number;
   type?: string;
   description?: string;
+  images?: string[];
+  categoryId?: number;
+  accountId?: number;
   account?: Account;
   category?: Category;
 }
@@ -153,6 +158,9 @@ export interface UpdateActivityDto {
   amount?: number;
   type?: string;
   description?: string;
+  images?: string[];
+  categoryId?: number;
+  accountId?: number;
   account?: Account;
   category?: Category;
 }
@@ -160,7 +168,6 @@ export interface UpdateActivityDto {
 export interface CreateCategoryDto {
   code?: string;
   name?: string;
-  type?: string;
   image?: string;
   description?: string;
   activities?: Activity[];
@@ -173,7 +180,6 @@ export interface CreateManyCategoryDto {
 export interface UpdateCategoryDto {
   code?: string;
   name?: string;
-  type?: string;
   image?: string;
   description?: string;
   activities?: Activity[];
@@ -409,6 +415,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       ...params,
     });
 
+  upload = {
+    /**
+     * No description
+     *
+     * @name AppControllerUploadFile
+     * @request POST:/upload
+     */
+    appControllerUploadFile: (params: RequestParams = {}) =>
+      this.request<object[], any>({
+        path: `/upload`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+  };
   account = {
     /**
      * No description

@@ -70,3 +70,51 @@ h5, p, span {
   padding-left: 15px;
   font-size: 90%;
 }
+
+.upload {
+  display: flex;
+  height: 10rem;
+  width: 100%;
+}
+.upload.have-image {
+  width: calc((100% - 10px) / 2) !important;
+}
+
+.upload .fake {
+  border: 2px dashed var(--ion-color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  /* background-color: var(--ion-color-light); */
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+} 
+.upload .icon {
+  font-size: 2rem;
+  color: var(--ion-color-medium);
+}
+
+.wrap-upload {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px;
+}
+.wrap-upload .image {
+  max-height: 10rem;
+  width: calc((100% - 10px) / 2);
+  margin-right: 10px;
+  border: 1px solid var(--ion-color-primary);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.wrap-upload .image:nth-child(2n) {
+  margin-right: 0;
+}
+.wrap-upload .image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}

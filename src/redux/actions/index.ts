@@ -5,19 +5,22 @@ import moment from 'moment';
 
 export const fetchActivities = (filter?: any) => async (dispatch: any) =>{
     const api = new AccountingApi();
-    let filterStr = '';
+    let filterStr = [];
+    let query = {};
     if (filter) {
         if (filter.createdAt) {
-            filterStr = `created_at||$gte||${filter.createdAt}`;
+            filterStr.push(`created_at||$gte||${filter.createdAt}`);
         }
         Object.keys(filter).forEach(field => {
             if (field !== 'createdAt' && filter[field])
-            filterStr += `${field}||$eq||${filter[field]}`
+            filterStr.push(`${field}||$eq||${filter[field]}`);
         })
     }
-    const response = await api.activities.getManyBaseActivityControllerActivity({
-        filter: [filterStr]
-    });
+    filterStr.push(`created_at||$gte||${moment().startOf('day').toISOString()}`);
+    query = {filter: [...filterStr]};
+    console.log(query);
+    
+    const response = await api.activities.getManyBaseActivityControllerActivity(query);
     return dispatch({type: FETCH_ACTIVITIES, payload: response.data});
 }
 

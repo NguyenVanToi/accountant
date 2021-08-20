@@ -6,11 +6,14 @@ import {
     IonTitle,
     IonToolbar
 } from '@ionic/react';
-import { checkmarkOutline, arrowBackOutline } from 'ionicons/icons';
+import { checkmarkOutline, arrowBackOutline, addCircleOutline, imagesOutline } from 'ionicons/icons';
 import { useForm } from 'react-hook-form';
 import SelectCustom from '../partials/SelectCustom';
 import { AccountingType } from '../_core/constants';
 import { Activity, Category } from '../_core/api/api';
+import { useState } from 'react';
+import ActionChooseOption from './ActionChooseOption';
+import { API_URL } from '../_core/environment';
 const CreateActivity: React.FC<{
     activity: any
     onDismiss: () => void;
@@ -21,9 +24,12 @@ const CreateActivity: React.FC<{
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {...activity}
     });
+    const [showActionSheet, setShowActionSheet] = useState(false);
+    const [images, setImages] = useState(activity?.images || []);
+    const urlUpload = `${API_URL}/image`
+
     const onSubmit = (value: any) => {
-        console.log('activity');
-        const act: Activity = { ...value };
+        const act: Activity = { ...value, images };
         if (activity && activity.id) {
             editActivity(act);
             onDismiss();
@@ -48,7 +54,6 @@ const CreateActivity: React.FC<{
         }
         return {id: type, name};
     })
-
 
     return (
         <div>
@@ -114,6 +119,26 @@ const CreateActivity: React.FC<{
                             rows={5}
                         />
                     </IonItem>
+                </div>
+                <div className="wrap-upload">
+                    {
+                        images?.length > 0 ? images.map((image: string) => (
+                            <div className="form-control image" key={image}>
+                                <img src={`${urlUpload}/${image}`} alt="image" />
+                            </div>
+                        )) : null
+                    }
+                    <div className={`${images?.length > 0 ? 'have-image' : ''} form-control upload`}>
+                        <label className="fake" htmlFor="upload" onClick={() => setShowActionSheet(true)}>
+                            <IonIcon icon={imagesOutline} className="icon"/>
+                        </label>
+                        <ActionChooseOption
+                            showActionSheet={showActionSheet}
+                            setShowActionSheet={setShowActionSheet}
+                            currentImages={images}
+                            setImages={setImages}
+                        />
+                    </div>
                 </div>
             </form>
             <IonFab

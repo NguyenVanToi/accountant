@@ -19,6 +19,7 @@ interface AppPage {
   iosIcon: string;
   mdIcon: string;
   title: string;
+  color?: string;
 }
 
 const appPages: AppPage[] = [
@@ -26,13 +27,15 @@ const appPages: AppPage[] = [
     title: 'Chi tiêu',
     url: '/page/accountant',
     iosIcon: newspaperOutline,
-    mdIcon: newspaperOutline
+    mdIcon: newspaperOutline,
+    color: 'primary'
   },
   {
     title: 'Quản lý danh mục',
     url: '/page/category',
     iosIcon: layersOutline,
-    mdIcon: layersOutline
+    mdIcon: layersOutline,
+    color: 'warning'
   }
 ];
 
@@ -51,7 +54,7 @@ const Menu: React.FC = () => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} color={appPage?.color}/>
                   <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>
               </IonMenuToggle>

@@ -15,7 +15,7 @@ import {
     IonSelectOption,
     useIonModal
 } from '@ionic/react';
-import { arrowDown, arrowUp, addOutline, trashBinOutline } from 'ionicons/icons';
+import { arrowDown, arrowUp, addOutline, trashBinOutline, filterOutline } from 'ionicons/icons';
 import CurrencyFormat from 'react-currency-format';
 import CreateActivity from './CreateActivity';
 import { connect } from 'react-redux';
@@ -23,31 +23,19 @@ import { createActivity, deleteActivity, editActivity, fetchActivities } from '.
 import { Activity } from '../_core/api/api';
 import { fetchCategories } from '../redux/actions/categoryAction';
 import moment from 'moment';
+import FilterView from './FilterView';
 
 const Accountant: React.FC = (props: any) => {
 
     const [list, setList] = useState<Activity[]>([]);
     const [activitySelected, setActivitySelected] = useState<Activity | null>(null);
-    const [filter, setFiter] = useState<{
+    const [filter, setFilter] = useState<{
         categoryId?: number,
-        type?: string
+        type?: string | null
     }>({
-        categoryId: undefined,
-        type: undefined
+        categoryId: 0,
+        type: null
     });
-    const accountingTypes = Object.values(AccountingType).map((type) => {
-        let name = '';
-        switch (type) {
-            case AccountingType.INCOME:
-                name = 'Thu';
-                break;
-            case AccountingType.OUTCOME:
-                name = 'Chi';
-                break;
-        }
-        return {id: type, name};
-    })
-
     useEffect(() => {
         const fetchActivities = async () => {
             props.fetchActivities();
@@ -56,19 +44,17 @@ const Accountant: React.FC = (props: any) => {
 
         fetchActivities();
     }, []);
-    useEffect(() => {
-        console.log('filter', filter)
-        if (filter) {
-            props.fetchActivities(filter);
-        }
-    }, [filter]);
 
     useEffect(() => {
         setList(props.activities);
     }, [props.activities]);
 
+
     const handleDismiss = () => {
         dismiss();
+    };
+    const handleDismissFilter = () => {
+        dismissFilter();
     };
 
     const [present, dismiss] = useIonModal(CreateActivity, {
@@ -77,6 +63,13 @@ const Accountant: React.FC = (props: any) => {
         createActivity: props.createActivity,
         editActivity: props.editActivity,
         categories: props.categories
+    });
+    const [presentFilter, dismissFilter] = useIonModal(FilterView, {
+        onDismiss: handleDismissFilter,
+        categories: props.categories,
+        fetchActivities: props.fetchActivities,
+        filter: filter,
+        setFilter: setFilter
     });
 
     const handleActivity = (activity?: Activity) => {
@@ -92,14 +85,6 @@ const Accountant: React.FC = (props: any) => {
 
     const deleteActivity = (activity: Activity) => {
         props.deleteActivity(activity);
-    }
-
-    const changeFilter = (e: any) => {
-        const value = e.target.value;
-        const name = e.target.name;
-        console.log(name);
-        console.log(value);
-        setFiter({...filter, [name]: value});
     }
 
     const renderList = () => {
@@ -186,42 +171,11 @@ const Accountant: React.FC = (props: any) => {
             </div>
             <div className="filter">
                 <h5>Lọc</h5>
-                <div className="form-control">
-                    <IonItem className="item" lines="none">
-                        <IonLabel>Danh mục</IonLabel>
-                        <IonSelect
-                            interface="popover"
-                            onIonChange={changeFilter}
-                            name="categoryId"
-                            value={filter.categoryId}
-                        >
-                            <IonSelectOption value={undefined} key={0}>Tất cả</IonSelectOption>
-                            {
-                                (props?.categories || []).map((choice: any) => {
-                                    return <IonSelectOption value={choice?.id} key={choice?.id}>{`${choice?.code} - ${choice?.name}`}</IonSelectOption>
-                                })
-                            }
-                        </IonSelect>
-                    </IonItem>
-                </div>
-                <div className="form-control">
-                    <IonItem className="item" lines="none">
-                        <IonLabel>Kiểu</IonLabel>
-                        <IonSelect
-                            interface="popover"
-                            onIonChange={changeFilter}
-                            name="type"
-                            value={filter.type}
-                        >
-                            <IonSelectOption value={undefined} key={0}>Tất cả</IonSelectOption>
-                            {
-                                accountingTypes.map((choice: any) => {
-                                    return <IonSelectOption value={choice?.id} key={choice?.id}>{choice?.name}</IonSelectOption>
-                                })
-                            }
-                        </IonSelect>
-                    </IonItem>
-                </div>
+                <IonIcon icon={filterOutline} onClick={() => {
+                    presentFilter({
+                        cssClass: 'modal custom',
+                    });
+                }}/>
             </div>
             {
                 renderList()
