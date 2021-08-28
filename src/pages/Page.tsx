@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import Accountant from '../components/Accountant';
 import './Page.css';
 import Category from '../components/Category';
+import Search from '../components/Search';
 
 const Page: React.FC = () => {
 
@@ -17,6 +18,10 @@ const Page: React.FC = () => {
           name = 'Quản lý danh mục';
           component = <Category />
           break;
+      case 'search':
+        name = 'Tra cứu';
+        component = <Search />
+        break;
       default:
           name = 'page';
           break;

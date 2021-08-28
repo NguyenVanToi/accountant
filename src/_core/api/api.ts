@@ -185,6 +185,59 @@ export interface UpdateCategoryDto {
   activities?: Activity[];
 }
 
+export interface GetManySummaryResponseDto {
+  data: Summary[];
+  count: number;
+  total: number;
+  page: number;
+  pageCount: number;
+}
+
+export interface Summary {
+  id: number;
+  type: string;
+  day: number;
+  week: number;
+  month: number;
+  year: number;
+  data: object;
+  accountId: number;
+
+  /** @format date-time */
+  created_at: string;
+
+  /** @format date-time */
+  updated_at: string;
+  account: Account;
+}
+
+export interface CreateSummaryDto {
+  id?: number;
+  type?: string;
+  day?: number;
+  week?: number;
+  month?: number;
+  year?: number;
+  data?: object;
+  accountId?: number;
+  account?: Account;
+}
+
+export interface CreateManySummaryDto {
+  bulk: CreateSummaryDto[];
+}
+
+export interface UpdateSummaryDto {
+  type?: string;
+  day?: number;
+  week?: number;
+  month?: number;
+  year?: number;
+  data?: object;
+  accountId?: number;
+  account?: Account;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -426,6 +479,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<object[], any>({
         path: `/upload`,
         method: "POST",
+        format: "json",
+        ...params,
+      }),
+  };
+  image = {
+    /**
+     * No description
+     *
+     * @name AppControllerFindImage
+     * @request GET:/image/{imagename}
+     */
+    appControllerFindImage: (imagename: string, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/image/${imagename}`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -968,6 +1036,146 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createManyBaseCategoryControllerCategory: (data: CreateManyCategoryDto, params: RequestParams = {}) =>
       this.request<Category[], any>({
         path: `/category/bulk`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+  };
+  summary = {
+    /**
+     * No description
+     *
+     * @tags Summaries
+     * @name GetOneBaseSummaryControllerSummary
+     * @summary Retrieve a single Summary
+     * @request GET:/summary/{id}
+     */
+    getOneBaseSummaryControllerSummary: (
+      id: number,
+      query?: { fields?: string[]; join?: string[]; cache?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<Summary, any>({
+        path: `/summary/${id}`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Summaries
+     * @name UpdateOneBaseSummaryControllerSummary
+     * @summary Update a single Summary
+     * @request PATCH:/summary/{id}
+     */
+    updateOneBaseSummaryControllerSummary: (id: number, data: UpdateSummaryDto, params: RequestParams = {}) =>
+      this.request<Summary, any>({
+        path: `/summary/${id}`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Summaries
+     * @name ReplaceOneBaseSummaryControllerSummary
+     * @summary Replace a single Summary
+     * @request PUT:/summary/{id}
+     */
+    replaceOneBaseSummaryControllerSummary: (id: number, data: Summary, params: RequestParams = {}) =>
+      this.request<Summary, any>({
+        path: `/summary/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Summaries
+     * @name DeleteOneBaseSummaryControllerSummary
+     * @summary Delete a single Summary
+     * @request DELETE:/summary/{id}
+     */
+    deleteOneBaseSummaryControllerSummary: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/summary/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Summaries
+     * @name GetManyBaseSummaryControllerSummary
+     * @summary Retrieve multiple Summaries
+     * @request GET:/summary
+     */
+    getManyBaseSummaryControllerSummary: (
+      query?: {
+        fields?: string[];
+        s?: string;
+        filter?: string[];
+        or?: string[];
+        sort?: string[];
+        join?: string[];
+        limit?: number;
+        offset?: number;
+        page?: number;
+        cache?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetManySummaryResponseDto | Summary[], any>({
+        path: `/summary`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Summaries
+     * @name CreateOneBaseSummaryControllerSummary
+     * @summary Create a single Summary
+     * @request POST:/summary
+     */
+    createOneBaseSummaryControllerSummary: (data: CreateSummaryDto, params: RequestParams = {}) =>
+      this.request<Summary, any>({
+        path: `/summary`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Summaries
+     * @name CreateManyBaseSummaryControllerSummary
+     * @summary Create multiple Summaries
+     * @request POST:/summary/bulk
+     */
+    createManyBaseSummaryControllerSummary: (data: CreateManySummaryDto, params: RequestParams = {}) =>
+      this.request<Summary[], any>({
+        path: `/summary/bulk`,
         method: "POST",
         body: data,
         type: ContentType.Json,

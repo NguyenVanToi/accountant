@@ -23,25 +23,21 @@ import { fetchCategories } from '../redux/actions/categoryAction';
 import moment from 'moment';
 import FilterView from './FilterView';
 
-const Accountant: React.FC = (props: any) => {
+const Search: React.FC = (props: any) => {
 
     const [list, setList] = useState<Activity[]>([]);
     const [activitySelected, setActivitySelected] = useState<Activity | null>(null);
     const [filter, setFilter] = useState<{
         categoryId?: number,
-        type?: string | null
+        type?: string | null,
+        createdAt?:  string | null,
     }>({
         categoryId: 0,
-        type: null
+        type: null,
+        createdAt: null
     });
     useEffect(() => {
-        const fetchActivities = async () => {
-            const defaultFilterAct = {createdAt: moment().startOf('day').toISOString()};
-            props.fetchActivities(defaultFilterAct);
-            props.fetchCategories()
-        }
-
-        fetchActivities();
+        props.fetchCategories()
     }, []);
 
     useEffect(() => {
@@ -59,8 +55,6 @@ const Accountant: React.FC = (props: any) => {
     const [present, dismiss] = useIonModal(CreateActivity, {
         onDismiss: handleDismiss,
         activity: activitySelected,
-        createActivity: props.createActivity,
-        editActivity: props.editActivity,
         categories: props.categories
     });
     const [presentFilter, dismissFilter] = useIonModal(FilterView, {
@@ -68,15 +62,12 @@ const Accountant: React.FC = (props: any) => {
         categories: props.categories,
         fetchActivities: props.fetchActivities,
         filter: filter,
-        setFilter: setFilter
+        setFilter: setFilter,
+        isCreatedAt: true
     });
 
-    const handleActivity = (activity?: Activity) => {
-        if (activity && activity.id) {
-            setActivitySelected(activity);
-        } else {
-            setActivitySelected(null);
-        }
+    const handleActivity = (activity: Activity) => {
+        setActivitySelected(activity);
         present({
             cssClass: 'modal custom',
         });
@@ -91,30 +82,23 @@ const Accountant: React.FC = (props: any) => {
             <IonList className="list">
                 {
                     list.map((item: any) => (
-                        <IonItemSliding key={item?.id}>
-                            <IonItem className="item" onClick={() => handleActivity(item)}>
-                                <IonIcon
-                                    slot="start"
-                                    icon={item.type === AccountingType.INCOME ? arrowDown : arrowUp}
-                                    className={`icon ${item.type === AccountingType.INCOME ? 'in' : 'out'}`}
+                        <IonItem className="item" key={item?.id}>
+                            <IonIcon
+                                slot="start"
+                                icon={item.type === AccountingType.INCOME ? arrowDown : arrowUp}
+                                className={`icon ${item.type === AccountingType.INCOME ? 'in' : 'out'}`}
+                            />
+                            <IonLabel>{item?.name}</IonLabel>
+                            <div className={`price`}>
+                                <CurrencyFormat
+                                    value={item?.amount}
+                                    displayType={'text'}
+                                    thousandSeparator={true}   
+                                    renderText={(value: any) => <div className="price">{value}</div>}
                                 />
-                                <IonLabel>{item?.name}</IonLabel>
-                                <div className={`price`}>
-                                    <CurrencyFormat
-                                        value={item?.amount}
-                                        displayType={'text'}
-                                        thousandSeparator={true}
-                                        renderText={(value: any) => <div className="price">{value}</div>}
-                                    />
-                                    <span className="unit">{UNIT}</span>
-                                </div>
-                            </IonItem>
-                            <IonItemOptions side="end">
-                                <IonItemOption color="danger" onClick={() => deleteActivity(item)}>
-                                    <IonIcon icon={trashBinOutline} />
-                                </IonItemOption>
-                            </IonItemOptions>
-                        </IonItemSliding>
+                                <span className="unit">{UNIT}</span>
+                            </div>
+                        </IonItem>                   
                     ))
                 }
             </IonList>
@@ -123,9 +107,22 @@ const Accountant: React.FC = (props: any) => {
 
     return (
         <div className="container">
+            <div className="filter">
+                <h5>Lọc</h5>
+                <IonIcon icon={filterOutline} onClick={() => {
+                    presentFilter({
+                        cssClass: 'modal custom',
+                    });
+                }}/>
+            </div>
             <div className="summary">
-                <h3>Ngày {moment().format('DD/MM/YYYY')}</h3>
                 <IonList className="list" mode="ios">
+                    <IonItem lines="none">
+                        <IonLabel>Ngày: </IonLabel>
+                        <div slot="end">
+                            {filter.createdAt ? moment(filter.createdAt).format('DD/MM/YYYY') : '__/__/__'}
+                        </div>
+                    </IonItem>
                     <IonItem lines="none">
                         <IonLabel>Thu: </IonLabel>
                         <div className="price in" slot="end">
@@ -168,28 +165,9 @@ const Accountant: React.FC = (props: any) => {
                     </IonItem>
                 </IonList>
             </div>
-            <div className="filter">
-                <h5>Lọc</h5>
-                <IonIcon icon={filterOutline} onClick={() => {
-                    presentFilter({
-                        cssClass: 'modal custom',
-                    });
-                }}/>
-            </div>
             {
                 renderList()
             }
-            <IonFab
-                onClick={() => handleActivity()}
-                vertical="bottom"
-                horizontal="end"
-                slot="fixed"
-            >
-                <IonFabButton>
-                    <IonIcon icon={addOutline} />
-                </IonFabButton>
-            </IonFab>
-
         </div>
     );
 };
@@ -207,9 +185,6 @@ export default connect(
     mapStateToProps,
     {
         fetchActivities,
-        createActivity,
-        editActivity,
-        deleteActivity,
         fetchCategories
     }
-)(Accountant);
+)(Search);

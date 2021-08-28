@@ -1,6 +1,6 @@
 import {
     IonButton,
-    IonButtons, IonFab, IonFabButton,
+    IonButtons, IonDatetime, IonFab, IonFabButton,
     IonHeader,
     IonIcon, IonItem, IonLabel, IonSelect, IonSelectOption,
     IonTitle,
@@ -15,9 +15,10 @@ const FilterView: React.FC<{
     categories: Category[],
     fetchActivities: any,
     filter: any,
-    setFilter: any
-}> = ({ onDismiss, categories, fetchActivities, filter, setFilter }) => {
-    const onSubmit = () => {
+    setFilter: any,
+    isCreatedAt?: boolean
+}> = ({ onDismiss, categories, fetchActivities, filter, setFilter, isCreatedAt }) => {
+    const onSubmit = () => {    
         fetchActivities(filter);
         onDismiss();
         return;
@@ -35,8 +36,11 @@ const FilterView: React.FC<{
         return {id: type, name};
     });
     const changeFilter = (e: any) => {
-        const value = e.target.value;
+        let value = e.target.value;
         const name = e.target.name;
+        if (name === 'createdAt') {
+            value = e.detail.value!;
+        }
         setFilter({...filter, [name]: value});
     }
 
@@ -75,6 +79,22 @@ const FilterView: React.FC<{
                     {errors.amount && <span className="mess-error">(*) Bắt buộc.</span>}
 
                 </div> */}
+                {
+                    isCreatedAt && (
+                        <IonItem className="item" lines="none">
+                            <IonLabel>Ngày</IonLabel>
+                            <IonDatetime
+                                displayFormat="DD/MM/YY"
+                                placeholder="Chọn ngày"
+                                value={filter.createdAt}
+                                onIonChange={changeFilter}
+                                className="select date"
+                                name="createdAt"
+                            >
+                            </IonDatetime>
+                        </IonItem>
+                    )
+                }
                 <div className="form-control">
                     <IonItem className="item" lines="none">
                         <IonLabel>Danh mục</IonLabel>

@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
-import { bookmarkOutline, newspaperOutline, layersOutline, paperPlaneSharp } from 'ionicons/icons';
+import { searchOutline, newspaperOutline, layersOutline } from 'ionicons/icons';
 import './Menu.css';
 
 interface AppPage {
@@ -28,7 +28,7 @@ const appPages: AppPage[] = [
     url: '/page/accountant',
     iosIcon: newspaperOutline,
     mdIcon: newspaperOutline,
-    color: 'primary'
+    color: 'success'
   },
   {
     title: 'Quản lý danh mục',
@@ -36,6 +36,13 @@ const appPages: AppPage[] = [
     iosIcon: layersOutline,
     mdIcon: layersOutline,
     color: 'warning'
+  },
+  {
+    title: 'Tra cứu',
+    url: '/page/search',
+    iosIcon: searchOutline,
+    mdIcon: searchOutline,
+    color: 'secondary'
   }
 ];
 
@@ -54,7 +61,7 @@ const Menu: React.FC = () => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} color={appPage?.color}/>
+                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} color={location.pathname === appPage.url ? 'primary' : appPage?.color}/>
                   <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>
               </IonMenuToggle>

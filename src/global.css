@@ -118,3 +118,8 @@ h5, p, span {
   width: 100%;
   object-fit: cover;
 }
+
+/*  control  */
+.select.date {
+  --placeholder-color: var(--ion-color-light-contrast);
+}
