@@ -4,6 +4,7 @@ import Accountant from '../components/Accountant';
 import './Page.css';
 import Category from '../components/Category';
 import Search from '../components/Search';
+import SummaryView from '../components/SummaryView';
 
 const Page: React.FC = () => {
 
@@ -21,6 +22,10 @@ const Page: React.FC = () => {
       case 'search':
         name = 'Tra cứu';
         component = <Search />
+        break;
+      case 'summary':
+        name = 'Thống kê';
+        component = <SummaryView />
         break;
       default:
           name = 'page';

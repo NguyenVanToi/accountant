@@ -4,7 +4,6 @@ import {
     DELETE_ACTIVITY,
     EDIT_ACTIVITY,
     FETCH_ACTIVITIES,
-    FETCH_ACTIVITY
 } from '../actions/type';
 import { reduce } from 'lodash';
 import { AccountingType } from '../../_core/constants';
@@ -13,7 +12,7 @@ const INITIAL_STATE = {
     amountOut: 0,
 }
 
-export default (state = INITIAL_STATE, action: ActionInterface) => {
+const accountingReducer = (state = INITIAL_STATE, action: ActionInterface) => {
     switch (action.type) {
         case FETCH_ACTIVITIES:
             const activities = action.payload || [];
@@ -50,3 +49,5 @@ export default (state = INITIAL_STATE, action: ActionInterface) => {
             return state;
     }
 }
+
+export default accountingReducer;

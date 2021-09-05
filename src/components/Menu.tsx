@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
-import { searchOutline, newspaperOutline, layersOutline } from 'ionicons/icons';
+import { searchOutline, newspaperOutline, layersOutline, bookOutline } from 'ionicons/icons';
 import './Menu.css';
 
 interface AppPage {
@@ -28,21 +28,28 @@ const appPages: AppPage[] = [
     url: '/page/accountant',
     iosIcon: newspaperOutline,
     mdIcon: newspaperOutline,
-    color: 'success'
+    color: 'medium'
   },
   {
     title: 'Quản lý danh mục',
     url: '/page/category',
     iosIcon: layersOutline,
     mdIcon: layersOutline,
-    color: 'warning'
+    color: 'medium'
   },
   {
     title: 'Tra cứu',
     url: '/page/search',
     iosIcon: searchOutline,
     mdIcon: searchOutline,
-    color: 'secondary'
+    color: 'medium'
+  },
+  {
+    title: 'Thống kê',
+    url: '/page/summary',
+    iosIcon: bookOutline,
+    mdIcon: bookOutline,
+    color: 'medium'
   }
 ];
 
@@ -60,7 +67,7 @@ const Menu: React.FC = () => {
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
+                <IonItem className={`${location.pathname === appPage.url ? 'selected' : ''} item-menu`} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
                   <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} color={location.pathname === appPage.url ? 'primary' : appPage?.color}/>
                   <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>

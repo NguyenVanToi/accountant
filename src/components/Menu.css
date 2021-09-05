@@ -108,6 +108,15 @@ ion-note {
   color: var(--ion-color-medium-shade);
 }
 
-ion-item.selected {
+.item-menu.selected {
   --color: var(--ion-color-primary);
+}
+.item-menu{
+  --color: var(--ion-color-medium);
+}
+.item-menu ion-label {
+  font-weight: 400 !important;
+}
+.item-menu.selected ion-label {
+  font-weight: 500 !important;
 }

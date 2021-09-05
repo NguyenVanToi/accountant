@@ -1,15 +1,14 @@
 import {
     IonButton,
-    IonButtons, IonDatetime, IonFab, IonFabButton,
+    IonButtons, IonDatetime,
     IonHeader,
     IonIcon, IonItem, IonLabel, IonSelect, IonSelectOption,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
-import { checkmarkOutline, arrowBackOutline } from 'ionicons/icons';
+import { arrowBackOutline } from 'ionicons/icons';
 import { AccountingType } from '../_core/constants';
 import { Category } from '../_core/api/api';
-import { useState } from 'react';
 const FilterView: React.FC<{
     onDismiss: () => void;
     categories: Category[],

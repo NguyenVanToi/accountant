@@ -7,18 +7,19 @@ export const fetchActivities = (filter?: any) => async (dispatch: any) =>{
     const api = new AccountingApi();
     let filterStr = [];
     let query = {};
-    console.log(moment(filter.createdAt).startOf('day').toISOString());
+    let createdAt = moment();
     
     if (filter) {
         if (filter.createdAt) {
-            filterStr.push(`created_at||$gte||${moment(filter.createdAt).startOf('day').toISOString()}`);
-            filterStr.push(`created_at||$lte||${moment(filter.createdAt).endOf('day').toISOString()}`);
+            createdAt = filter.createdAt;
         }
         Object.keys(filter).forEach(field => {
             if (field !== 'createdAt' && filter[field])
             filterStr.push(`${field}||$eq||${filter[field]}`);
         })
     }
+    filterStr.push(`created_at||$gte||${moment(createdAt).startOf('day').toISOString()}`);
+        filterStr.push(`created_at||$lte||${moment(createdAt).endOf('day').toISOString()}`);
     query = {filter: [...filterStr]};    
     const response = await api.activities.getManyBaseActivityControllerActivity(query);
     return dispatch({type: FETCH_ACTIVITIES, payload: response.data});

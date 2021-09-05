@@ -3,12 +3,8 @@ import './../global.css';
 import './Accountant.css';
 import { AccountingType, UNIT } from '../_core/constants';
 import {
-    IonFab, IonFabButton,
     IonIcon,
     IonItem,
-    IonItemOption,
-    IonItemOptions,
-    IonItemSliding,
     IonLabel,
     IonList,
     useIonModal
@@ -17,7 +13,7 @@ import { arrowDown, arrowUp, addOutline, trashBinOutline, filterOutline } from '
 import CurrencyFormat from 'react-currency-format';
 import CreateActivity from './CreateActivity';
 import { connect } from 'react-redux';
-import { createActivity, deleteActivity, editActivity, fetchActivities } from '../redux/actions';
+import { fetchActivities } from '../redux/actions';
 import { Activity } from '../_core/api/api';
 import { fetchCategories } from '../redux/actions/categoryAction';
 import moment from 'moment';
