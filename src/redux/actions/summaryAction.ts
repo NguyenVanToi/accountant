@@ -21,31 +21,34 @@ export const matchSummary = ({type, value}: {type: string, value: any}) => async
     categories = Object.values(categories);
     
     const api = new AccountingApi();
-    const filter = [];
-    let field = '';
+    let filter: any = [];
     let day = 0;
     let week = 0;
     let month = 0;
+    let year = moment().get('year');
     switch(type) {
         case SummaryType.DAY:
-            field = 'day';
             day = moment(value).day() + 1;
-            value = moment(value).day() + 1;
+            week = moment(value).get('week');
+            month = moment(value).get('month') + 1;
             break;
         case SummaryType.WEEK:
-            field = 'week';
+            day = -1;
+            week = value;
+            month = moment().week(value).get('month') + 1;
             break;
         case SummaryType.MONTH:
-            field = 'month';
-            break;
-        case SummaryType.YEAR:
-            field = 'year';
-            break;
-        default:
-            field = type;
+            day = -1;
+            week = -1;
+            month = value;
             break;
     };
-    filter.push(`${field}||$eq||${value}`);
+    filter = [
+        `day||$eq||${day}`,
+        `week||$eq||${week}`,
+        `month||$eq||${month}`,
+        `year||$eq||${year}`,
+    ];
     const response: any = await api.summary.getManyBaseSummaryControllerSummary({filter: [...filter]});
     console.log(response);
     

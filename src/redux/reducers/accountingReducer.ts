@@ -31,12 +31,21 @@ const accountingReducer = (state = INITIAL_STATE, action: ActionInterface) => {
             };
         case EDIT_ACTIVITY:
             console.log('edit', action);
-            const oldPrice = action.payload.oldPrice;
+            const oldActivity = action.payload.oldActivity;
             const activity = action.payload.activity;
+            let amountIn = state.amountIn;
+            let amountOut = state.amountOut;
+            if (oldActivity.type === activity.type) {
+                amountIn = activity.type === AccountingType.INCOME ? amountIn - oldActivity.amount + activity.amount : amountIn;
+                amountOut = activity.type === AccountingType.OUTCOME ? amountOut - oldActivity.amount + activity.amount : amountOut;
+            } else {
+                amountIn = activity.type === AccountingType.INCOME ? amountIn + activity.amount : amountIn - oldActivity.amount;
+                amountOut = activity.type === AccountingType.OUTCOME ? amountOut + activity.amount : amountOut - oldActivity.amount;
+            }
             return {
                 ...state,
-                amountIn: activity.type === AccountingType.INCOME ? state.amountIn - oldPrice + activity.amount : state.amountIn,
-                amountOut: activity.type === AccountingType.OUTCOME ? state.amountOut - oldPrice + activity.amount : state.amountOut,
+                amountIn,
+                amountOut,
             };
         case DELETE_ACTIVITY:
             return {

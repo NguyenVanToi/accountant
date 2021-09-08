@@ -33,9 +33,9 @@ export const createActivity = (activity: Activity) => async (dispatch: any) => {
 
 export const editActivity = (activity: Activity) => async (dispatch: any, getState: any) => {
     const api = new AccountingApi();
-    const oldPrice = getState().activity[activity.id]?.amount || 0;
+    const oldActivity = getState().activity[activity.id];
     const response = await api.activities.updateOneBaseActivityControllerActivity(activity.id, activity);
-    return dispatch({ type: EDIT_ACTIVITY, payload: {activity: response.data, oldPrice} });
+    return dispatch({ type: EDIT_ACTIVITY, payload: {activity: response.data, oldActivity} });
 }
 
 export const deleteActivity = (activity: Activity) => async (dispatch: any) => {
