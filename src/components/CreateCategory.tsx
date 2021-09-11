@@ -41,38 +41,35 @@ const CreateCategory: React.FC<{
                             <IonIcon slot="icon-only" icon={arrowBackOutline}/>
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Danh muc</IonTitle>
+                    <IonTitle>Danh mục</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
-            <form className="form">
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Tên</IonLabel>
+            <form className="form container">
+                <div className="form-group">
+                        <IonLabel className="label">Tên</IonLabel>
                         <IonInput
+                            className="form-control"
                             {...register("name", { required: true })}
                         />
-                    </IonItem>
                     {errors.name && <span className="mess-error">(*) Bắt buộc.</span>}
                 </div>
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Code</IonLabel>
-                        <IonInput
-                            {...register("code", { required: true })}
-                        />
-                    </IonItem>
+                <div className="form-group">
+                    <IonLabel className="label">Code</IonLabel>
+                    <IonInput
+                        className="form-control"
+                        {...register("code", { required: true })}
+                    />
                     {errors.code && <span className="mess-error">(*) Bắt buộc.</span>}
                 </div>
 
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Ghi chú</IonLabel>
-                        <IonTextarea
-                            {...register("description", { required: false })}
-                            rows={5}
-                        />
-                    </IonItem>
+                <div className="form-group">
+                    <IonLabel className="label">Ghi chú</IonLabel>
+                    <IonTextarea
+                        className="form-control"
+                        {...register("description", { required: false })}
+                        rows={5}
+                    />
 
                 </div>
             </form>

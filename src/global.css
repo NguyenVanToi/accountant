@@ -66,11 +66,6 @@ h5, p, span {
   /*--border-radius: 10px;*/
 }
 
-.form-control .mess-error {
-  padding-left: 15px;
-  font-size: 90%;
-}
-
 .upload {
   display: flex;
   height: 10rem;
@@ -99,7 +94,6 @@ h5, p, span {
 .wrap-upload {
   display: flex;
   flex-wrap: wrap;
-  padding: 15px;
 }
 .wrap-upload .image {
   max-height: 10rem;
@@ -118,8 +112,58 @@ h5, p, span {
   width: 100%;
   object-fit: cover;
 }
-
-/*  control  */
+/* Layout */
+.container {
+  padding: 0 16px;
+}
+/*  form  */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.form-group .label {
+  margin-bottom: 4px;
+  font-size: 90%;
+}
+.form-group .form-control {
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 10px;
+}
+.form-group .mess-error {
+  padding-left: 15px;
+  font-size: 90%;
+}
+.form-group.small {
+  width: calc((100% - 8px) / 2);
+  margin-right: 8px;
+}
+.form-group.small:nth-child(2n + 1) {
+  margin-right: 0;
+}
+ion-textarea.form-control {
+  height: auto;
+}
 .select.date {
   --placeholder-color: var(--ion-color-light-contrast);
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 10px;
 }
+.form.container {
+  padding-top: 16px;
+}
+
+/* Create  activity modal */
+.create-activity .form {
+  padding-top: 16px; 
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ACCOUNTANT PAGE */
+.accountant .container {
+  padding: 0 8px;
+}
+
+/* FILTER VIEW */

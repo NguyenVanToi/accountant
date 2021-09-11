@@ -56,7 +56,7 @@ const CreateActivity: React.FC<{
     })
 
     return (
-        <div>
+        <div className="create-activity">
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
@@ -68,59 +68,57 @@ const CreateActivity: React.FC<{
                 </IonToolbar>
             </IonHeader>
 
-            <form className="form">
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Tên</IonLabel>
-                        <IonInput
-                            {...register("name", { required: true })}
-                        />
-                    </IonItem>
+            <form className="form container">
+                <div className="form-group">
+                    <IonLabel className="label">Tên</IonLabel>
+                    <IonInput
+                        className="form-control"
+                        {...register("name", { required: true })}
+                    />
                     {errors.name && <span className="mess-error">(*) Bắt buộc.</span>}
                 </div>
-
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Số lượng</IonLabel>
-                        <IonInput
-                            type="number"
-                            {...register("amount", { required: true })}
-                        />
-                    </IonItem>
-                    {errors.amount && <span className="mess-error">(*) Bắt buộc.</span>}
-
-                </div>
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Danh mục</IonLabel>
-                        <SelectCustom
-                            name="categoryId"
-                            {...{ control, register,  choices: categories }}
-                        />
-                    </IonItem>
+                <div className="form-group small">
+                    <IonLabel className="label">Danh mục</IonLabel>
+                    <SelectCustom
+                        className="form-control"
+                        name="categoryId"
+                        type="popover"
+                        {...{ control, register,  choices: categories }}
+                    />
                     {errors.category && <span className="mess-error">(*) Bắt buộc.</span>}
                 </div>
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Loại</IonLabel>
-                        <SelectCustom
-                            name="type"
-                            {...{ control, register,  choices: accountingTypes }}
-                        />
-                    </IonItem>
+                <div className="form-group small">
+                    <IonLabel className="label">Loại</IonLabel>
+                    <SelectCustom
+                        className="form-control"
+                        name="type"
+                        type="popover"
+                        {...{ control, register,  choices: accountingTypes }}
+                    />
                     {errors.type && <span className="mess-error">(*) Bắt buộc.</span>}
 
                 </div>
-                <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Ghi chú</IonLabel>
-                        <IonTextarea
-                            {...register("description", { required: false })}
-                            rows={5}
-                        />
-                    </IonItem>
+
+                <div className="form-group">
+                    <IonLabel className="label">Số tiền</IonLabel>
+                    <IonInput
+                        type="number"
+                        className="form-control"
+                        {...register("amount", { required: true })}
+                    />
+                    {errors.amount && <span className="mess-error">(*) Bắt buộc.</span>}
+
                 </div>
-                <div className="wrap-upload">
+                <div className="form-group">
+                    <IonLabel className="label">Ghi chú</IonLabel>
+                    <IonTextarea
+                        className="form-control"
+                        {...register("description", { required: false })}
+                        rows={5}
+                    />
+                </div>
+                <div className="wrap-upload form-group">
+                    <IonLabel className="label">Hình ảnh minh hoạ</IonLabel>
                     {
                         images?.length > 0 ? images.map((image: string) => (
                             <div className="form-control image" key={image}>
@@ -128,7 +126,7 @@ const CreateActivity: React.FC<{
                             </div>
                         )) : null
                     }
-                    <div className={`${images?.length > 0 ? 'have-image' : ''} form-control upload`}>
+                    <div className={`${images?.length > 0 ? 'have-image' : ''} upload`}>
                         <label className="fake" htmlFor="upload" onClick={() => setShowActionSheet(true)}>
                             <IonIcon icon={imagesOutline} className="icon"/>
                         </label>

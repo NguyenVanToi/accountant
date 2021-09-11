@@ -44,7 +44,7 @@ const FilterView: React.FC<{
     }
 
     return (
-        <div>
+        <div className="filter-view">
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
@@ -56,79 +56,57 @@ const FilterView: React.FC<{
                 </IonToolbar>
             </IonHeader>
 
-            <form className="form">
-                {/* <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Tên</IonLabel>
-                        <IonInput
-                            {...register("name", { required: true })}
-                        />
-                    </IonItem>
-                    {errors.name && <span className="mess-error">(*) Bắt buộc.</span>}
-                </div> */}
-
-                {/* <div className="form-control">
-                    <IonItem>
-                        <IonLabel>Số lượng</IonLabel>
-                        <IonInput
-                            type="number"
-                            {...register("amount", { required: true })}
-                        />
-                    </IonItem>
-                    {errors.amount && <span className="mess-error">(*) Bắt buộc.</span>}
-
-                </div> */}
+            <form className="form container">
                 {
                     isCreatedAt && (
-                        <IonItem className="item" lines="none">
-                            <IonLabel>Ngày</IonLabel>
+                        <div className="form-group">
+                            <IonLabel className="label">Ngày</IonLabel>
                             <IonDatetime
                                 displayFormat="DD/MM/YY"
-                                placeholder="Chọn ngày"
+                                placeholder="__/__/__"
                                 value={filter.createdAt}
                                 onIonChange={changeFilter}
                                 className="select date"
                                 name="createdAt"
                             >
                             </IonDatetime>
-                        </IonItem>
+                        </div>
+                            
                     )
                 }
-                <div className="form-control">
-                    <IonItem className="item" lines="none">
-                        <IonLabel>Danh mục</IonLabel>
-                        <IonSelect
-                            interface="popover"
-                            onIonChange={changeFilter}
-                            name="categoryId"
-                            value={filter.categoryId}
-                        >
-                            <IonSelectOption value={0} key={0}>Tất cả</IonSelectOption>
-                            {
-                                (categories || []).map((choice: any) => {
-                                    return <IonSelectOption value={choice?.id} key={choice?.id}>{`${choice?.code} - ${choice?.name}`}</IonSelectOption>
-                                })
-                            }
-                        </IonSelect>
-                    </IonItem>
+                <div className="form-group">
+                    <IonLabel className="label">Danh mục</IonLabel>
+                    <IonSelect
+                        interface="popover"
+                        onIonChange={changeFilter}
+                        name="categoryId"
+                        className="form-control"
+                        value={filter.categoryId}
+                    >
+                        <IonSelectOption value={0} key={0}>Tất cả</IonSelectOption>
+                        {
+                            (categories || []).map((choice: any) => {
+                                return <IonSelectOption value={choice?.id} key={choice?.id}>{`${choice?.code} - ${choice?.name}`}</IonSelectOption>
+                            })
+                        }
+                    </IonSelect>
                 </div>
-                <div className="form-control">
-                    <IonItem className="item" lines="none">
-                        <IonLabel>Kiểu</IonLabel>
-                        <IonSelect
-                            interface="popover"
-                            onIonChange={changeFilter}
-                            name="type"
-                            value={filter.type}
-                        >
-                            <IonSelectOption value={null}>Tất cả</IonSelectOption>
-                            {
-                                accountingTypes.map((choice: any) => {
-                                    return <IonSelectOption value={choice?.id} key={choice?.id}>{choice?.name}</IonSelectOption>
-                                })
-                            }
-                        </IonSelect>
-                    </IonItem>
+                <div className="form-group">
+                    <IonLabel className="label">Loại</IonLabel>
+                    <IonSelect
+                        interface="popover"
+                        onIonChange={changeFilter}
+                        name="type"
+                        className="form-control"
+                        value={filter.type}
+                    >
+                        <IonSelectOption value={null}>Tất cả</IonSelectOption>
+                        {
+                            accountingTypes.map((choice: any) => {
+                                return <IonSelectOption value={choice?.id} key={choice?.id}>{choice?.name}</IonSelectOption>
+                            })
+                        }
+                    </IonSelect>
                 </div>
             </form>
             <div className="ion-text-center">

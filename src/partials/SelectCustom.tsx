@@ -2,7 +2,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import { IonSelect, IonSelectOption } from '@ionic/react';
 import React from 'react';
 
-const SelectCustom = ({ name, control, choices, type }: any) => {
+const SelectCustom = ({ name, control, choices, type, className }: any) => {
     const valueWatch = useWatch({
         name: name,
         control
@@ -15,6 +15,7 @@ const SelectCustom = ({ name, control, choices, type }: any) => {
                     onIonBlur={onBlur}
                     onIonChange={onChange}
                     value={valueWatch}
+                    className={className}
                 >
                     {
                         (choices || []).map((choice: any) => {

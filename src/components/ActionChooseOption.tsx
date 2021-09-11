@@ -33,7 +33,8 @@ const ActionChooseOption: React.FC<any> = (props) => {
             
         } catch(e) {
             // Handle error
-            console.log("Camera issue: " + e);
+            console.log("Camera issue: " + JSON.stringify(e));
+            console.table(e);
           }
     }
 

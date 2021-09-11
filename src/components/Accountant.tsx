@@ -122,7 +122,7 @@ const Accountant: React.FC = (props: any) => {
     };
 
     return (
-        <div className="container">
+        <div className="accountant">
             <div className="summary">
                 <h3>Ngày {moment().format('DD/MM/YYYY')}</h3>
                 <IonList className="list" mode="ios">
@@ -176,9 +176,12 @@ const Accountant: React.FC = (props: any) => {
                     });
                 }}/>
             </div>
+            <div className="container">
             {
                 renderList()
-            }
+            }  
+            </div>
+            
             <IonFab
                 onClick={() => handleActivity()}
                 vertical="bottom"
