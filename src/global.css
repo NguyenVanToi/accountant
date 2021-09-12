@@ -130,6 +130,10 @@ h5, p, span {
 .form-group .form-control {
   border: 1px solid var(--ion-color-medium);
   border-radius: 10px;
+  height: 36px;
+  max-height: 36px;
+  --padding-start: 10px;
+  --padding-end: 10px;
 }
 .form-group .mess-error {
   padding-left: 15px;
@@ -143,7 +147,8 @@ h5, p, span {
   margin-right: 0;
 }
 ion-textarea.form-control {
-  height: auto;
+  height: auto !important;
+  max-height: inherit !important;
 }
 .select.date {
   --placeholder-color: var(--ion-color-light-contrast);
@@ -152,6 +157,49 @@ ion-textarea.form-control {
 }
 .form.container {
   padding-top: 16px;
+}
+
+/* DROP MENU */
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.dropdown:after {
+  position: absolute;
+  content: '';
+  top: .85rem;
+  right: .5rem;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--ion-color-medium);
+}
+.dropdown.show {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom: 0;
+}
+.drop-menu {
+  position: absolute;
+  top: 35px;
+  left: -1px;
+  width: calc(100% + 2px);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  max-height: 15rem;
+  min-height: 10rem;
+  overflow: auto;
+  z-index: 9999;
+  border: 1px solid var(--ion-color-medium);
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+  border-top: 0;
+  background-color: var(--ion-color-dark-contrast);
+}
+.drop-item {
+  padding: 8px;
 }
 
 /* Create  activity modal */
@@ -167,3 +215,8 @@ ion-textarea.form-control {
 }
 
 /* FILTER VIEW */
+
+/* CREATE CATEGORY */
+.drop-item.icon {
+  font-size: 1.4rem;
+}

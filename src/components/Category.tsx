@@ -11,7 +11,7 @@ import {
     IonList,
     useIonModal
 } from '@ionic/react';
-import { addOutline, trashBinOutline, cogOutline, homeOutline, personOutline, documentTextOutline, constructOutline, hammerOutline } from 'ionicons/icons';
+import { addOutline, trashBinOutline } from 'ionicons/icons';
 import CreateCategory from './CreateCategory';
 import { connect } from 'react-redux';
 import { Category } from '../_core/api/api';
@@ -19,14 +19,6 @@ import { deleteCategory, editCategory, fetchCategories, createCategory } from '.
 
 const CategoryView: React.FC = (props: any) => {
     const [list, setList] = useState<Category[]>([]);
-    const listIcons = [
-        'cogOutline',
-        'homeOutline',
-        'personOutline', 
-        'hammerOutline',
-        'constructOutline',
-        'documentTextOutline'
-    ]
     useEffect(() => {
         const fetchCategories = async () => {
             props.fetchCategories();
@@ -72,7 +64,7 @@ const CategoryView: React.FC = (props: any) => {
                     list.map((item: Category) => (
                         <IonItemSliding key={item?.id}>
                             <IonItem onClick={() => handleCategory(item)}>
-                                <IonIcon icon={item?.image}/>
+                                <IonIcon icon={item?.image} color="primary"/>
                                 <IonLabel>{item?.code} - {item?.name}</IonLabel>
                             </IonItem>
                             <IonItemOptions side="end">
@@ -86,13 +78,6 @@ const CategoryView: React.FC = (props: any) => {
             </IonList>
         );
     };
-    const renderListIcons = () => {
-        return (
-            listIcons.map(icon => (
-                <IonIcon icon={icon} key={icon} />
-            ))
-        )
-    }
 
     return (
         <div className="container">
