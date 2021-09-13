@@ -1,10 +1,10 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
-import Accountant from '../components/Accountant';
 import './Page.css';
-import Category from '../components/Category';
-import Search from '../components/Search';
-import SummaryView from '../components/SummaryView';
+import Category from '../components/Category/Category';
+import Search from '../components/Search/Search';
+import SummaryView from '../components/SummaryView/SummaryView';
+import Accountant from '../components/Accountant/Accountant';
 
 const Page: React.FC = () => {
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import './../global.css';
-import './Accountant.css';
-import { AccountingType, UNIT } from '../_core/constants';
+import './../../global.css';
+import './../Accountant/Accountant.css';
+import { AccountingType, UNIT } from '../../_core/constants';
 import {
     IonIcon,
     IonItem,
@@ -11,13 +11,13 @@ import {
 } from '@ionic/react';
 import { arrowDown, arrowUp, addOutline, trashBinOutline, filterOutline } from 'ionicons/icons';
 import CurrencyFormat from 'react-currency-format';
-import CreateActivity from './CreateActivity';
+import CreateActivity from '../Accountant/CreateActivity';
 import { connect } from 'react-redux';
-import { fetchActivities } from '../redux/actions';
-import { Activity } from '../_core/api/api';
-import { fetchCategories } from '../redux/actions/categoryAction';
+import { fetchActivities } from '../../redux/actions';
+import { Activity } from '../../_core/api/api';
+import { fetchCategories } from '../../redux/actions/categoryAction';
 import moment from 'moment';
-import FilterView from './FilterView';
+import FilterView from '../../partials/FilterView';
 
 const Search: React.FC = (props: any) => {
 

@@ -8,7 +8,7 @@ import {
 } from '@ionic/react';
 import { checkmarkOutline, arrowBackOutline } from 'ionicons/icons';
 import { useForm } from 'react-hook-form';
-import { Category } from '../_core/api/api';
+import { Category } from '../../_core/api/api';
 import { cogOutline, homeOutline, personOutline, documentTextOutline, constructOutline, hammerOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 const CreateCategory: React.FC<{

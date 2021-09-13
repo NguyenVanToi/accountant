@@ -8,12 +8,12 @@ import {
 } from '@ionic/react';
 import { checkmarkOutline, arrowBackOutline, addCircleOutline, imagesOutline } from 'ionicons/icons';
 import { useForm } from 'react-hook-form';
-import SelectCustom from '../partials/SelectCustom';
-import { AccountingType } from '../_core/constants';
-import { Activity, Category } from '../_core/api/api';
+import SelectCustom from '../../partials/SelectCustom';
+import { Activity, Category } from '../../_core/api/api';
 import { useState } from 'react';
-import ActionChooseOption from './ActionChooseOption';
-import { API_URL } from '../_core/environment';
+import ActionChooseOption from '../../partials/ActionChooseOption';
+import { API_URL } from '../../_core/environment';
+import { AccountingType } from '../../_core/constants';
 const CreateActivity: React.FC<{
     activity: any
     onDismiss: () => void;

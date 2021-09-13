@@ -4,11 +4,10 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
-import { fetchCategories } from '../redux/actions/categoryAction';
-import { AccountingType, SummaryType, UNIT } from '../_core/constants';
-import { matchSummary } from '../redux/actions/summaryAction'; 
-import './../global.css';
+import { AccountingType, SummaryType, UNIT } from '../../_core/constants';
+import './../../global.css';
 import './SummaryView.css';
+import { matchSummary } from '../../redux/actions/summaryAction';
 
 const SummaryView: React.FC = (props: any) => {
     const [filter, setFilter] = useState({

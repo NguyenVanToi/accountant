@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import './../global.css';
+import './../../global.css';
 import './Accountant.css';
-import { AccountingType, UNIT } from '../_core/constants';
+import { AccountingType, UNIT } from '../../_core/constants';
 import {
     IonFab, IonFabButton,
     IonIcon,
@@ -17,11 +17,11 @@ import { arrowDown, arrowUp, addOutline, trashBinOutline, filterOutline } from '
 import CurrencyFormat from 'react-currency-format';
 import CreateActivity from './CreateActivity';
 import { connect } from 'react-redux';
-import { createActivity, deleteActivity, editActivity, fetchActivities } from '../redux/actions';
-import { Activity } from '../_core/api/api';
-import { fetchCategories } from '../redux/actions/categoryAction';
+import { createActivity, deleteActivity, editActivity, fetchActivities } from '../../redux/actions';
+import { Activity } from '../../_core/api/api';
+import { fetchCategories } from '../../redux/actions/categoryAction';
 import moment from 'moment';
-import FilterView from './FilterView';
+import FilterView from './../../partials/FilterView';
 
 const Accountant: React.FC = (props: any) => {
 

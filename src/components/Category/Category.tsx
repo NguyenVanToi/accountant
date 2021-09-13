@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './../global.css';
+import './../../global.css';
 import {
     IonFab, IonFabButton,
     IonIcon,
@@ -14,8 +14,8 @@ import {
 import { addOutline, trashBinOutline } from 'ionicons/icons';
 import CreateCategory from './CreateCategory';
 import { connect } from 'react-redux';
-import { Category } from '../_core/api/api';
-import { deleteCategory, editCategory, fetchCategories, createCategory } from '../redux/actions/categoryAction';
+import { Category } from '../../_core/api/api';
+import { deleteCategory, editCategory, fetchCategories, createCategory } from '../../redux/actions/categoryAction';
 
 const CategoryView: React.FC = (props: any) => {
     const [list, setList] = useState<Category[]>([]);
