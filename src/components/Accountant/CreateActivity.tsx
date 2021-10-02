@@ -19,8 +19,9 @@ const CreateActivity: React.FC<{
     onDismiss: () => void;
     createActivity: any,
     editActivity: any,
-    categories: Category[]
-}> = ({  activity, onDismiss, createActivity, editActivity, categories }) => {
+    categories: Category[],
+    loading: boolean
+}> = ({  activity, onDismiss, createActivity, editActivity, categories, loading }) => {
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {...activity}
     });
@@ -36,7 +37,9 @@ const CreateActivity: React.FC<{
             return;
         }
         createActivity(act);
-        onDismiss();
+        if (!loading) {
+            onDismiss();
+        }
         return;
     };
     const accountingTypes = Object.values(AccountingType).map((type) => {
@@ -117,26 +120,29 @@ const CreateActivity: React.FC<{
                         rows={5}
                     />
                 </div>
-                <div className="wrap-upload form-group">
+                <div className="form-group">
                     <IonLabel className="label">Hình ảnh minh hoạ</IonLabel>
-                    {
-                        images?.length > 0 ? images.map((image: string) => (
-                            <div className="form-control image" key={image}>
-                                <img src={`${urlUpload}/${image}`} alt="image" />
-                            </div>
-                        )) : null
-                    }
-                    <div className={`${images?.length > 0 ? 'have-image' : ''} upload`}>
-                        <label className="fake" htmlFor="upload" onClick={() => setShowActionSheet(true)}>
-                            <IonIcon icon={imagesOutline} className="icon"/>
-                        </label>
-                        <ActionChooseOption
-                            showActionSheet={showActionSheet}
-                            setShowActionSheet={setShowActionSheet}
-                            currentImages={images}
-                            setImages={setImages}
-                        />
+                    <div className="wrap-upload">
+                        {
+                            images?.length > 0 ? images.map((image: string) => (
+                                <div className="form-control image" key={image}>
+                                    <img src={`${urlUpload}/${image}`} alt="image" />
+                                </div>
+                            )) : null
+                        }
+                        <div className={`${images?.length > 0 ? 'have-image' : ''} upload`}>
+                            <label className="fake" htmlFor="upload" onClick={() => setShowActionSheet(true)}>
+                                <IonIcon icon={imagesOutline} className="icon"/>
+                            </label>
+                            <ActionChooseOption
+                                showActionSheet={showActionSheet}
+                                setShowActionSheet={setShowActionSheet}
+                                currentImages={images}
+                                setImages={setImages}
+                            />
+                        </div>
                     </div>
+                    
                 </div>
             </form>
             <IonFab

@@ -3,6 +3,10 @@ export interface ActionInterface {
     payload: any;
 }
 
+export const ACTIVITY = 'ACTIVITY';
+export const CATEGORY = 'CATEGORY';
+export const SUMMARY = 'SUMMARY';
+
 export const CREATE_ACTIVITY = 'CREATE_ACTIVITY';
 export const FETCH_ACTIVITIES = 'FETCH_ACTIVITIES';
 export const FETCH_ACTIVITY = 'FETCH_ACTIVITY';
@@ -15,4 +19,19 @@ export const FETCH_CATEGORY = 'FETCH_CATEGORY';
 export const EDIT_CATEGORY = 'EDIT_CATEGORY';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
 
-export const FETCH_SUMMARIES = 'FETCH_SUMMARIES'
+export const FETCH_SUMMARIES = 'FETCH_SUMMARIES';
+
+// LOADING
+export const ACTIVITY_REQUEST = 'ACTIVITY_REQUEST';
+export const ACTIVITY_COMPLETE = 'ACTIVITY_COMPLETE';
+export const ACTIVITY_ERROR = 'ACTIVITY_ERROR';
+
+export const CATEGORY_REQUEST = 'CATEGORY_REQUEST';
+export const CATEGORY_COMPLETE = 'CATEGORY_COMPLETE';
+export const CATEGORY_ERROR = 'CATEGORY_ERROR';
+
+export const SUMMARY_REQUEST = 'SUMMARY_REQUEST';
+export const SUMMARY_COMPLETE = 'SUMMARY_COMPLETE';
+export const SUMMARY_ERROR = 'SUMMARY_ERROR';
+
+

@@ -1,5 +1,5 @@
 import { AccountingApi } from '../../_core/api/accountingApi';
-import { CREATE_CATEGORY, DELETE_CATEGORY, EDIT_CATEGORY, FETCH_CATEGORIES, FETCH_CATEGORY } from './type';
+import { ACTIVITY_REQUEST, CREATE_CATEGORY, DELETE_CATEGORY, EDIT_CATEGORY, FETCH_CATEGORIES, FETCH_CATEGORY } from './type';
 import { Category, CreateCategoryDto, UpdateCategoryDto } from '../../_core/api/api';
 
 export const fetchCategories = () => async (dispatch: any) =>{

@@ -128,7 +128,7 @@ h5, p, span {
   font-size: 90%;
 }
 .form-group .form-control {
-  border: 1px solid var(--ion-color-medium);
+  border: 1px solid var(--ion-color-light);
   border-radius: 10px;
   height: 36px;
   max-height: 36px;
@@ -202,6 +202,13 @@ ion-textarea.form-control {
   padding: 8px;
 }
 
+.list {
+  background: transparent;
+}
+.list ion-item {
+  --background: transparent;
+}
+
 /* Create  activity modal */
 .create-activity .form {
   padding-top: 16px; 
@@ -214,7 +221,6 @@ ion-textarea.form-control {
   padding: 0 8px;
 }
 
-/* FILTER VIEW */
 
 /* CREATE CATEGORY */
 .drop-item.icon {

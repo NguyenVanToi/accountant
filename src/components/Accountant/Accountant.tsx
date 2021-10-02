@@ -22,9 +22,12 @@ import { Activity } from '../../_core/api/api';
 import { fetchCategories } from '../../redux/actions/categoryAction';
 import moment from 'moment';
 import FilterView from './../../partials/FilterView';
+import Loading from '../../partials/Loading';
+import { createLoadingSelector } from '../../redux/stores/selectors';
+import { ACTIVITY } from '../../redux/actions/type';
 
 const Accountant: React.FC = (props: any) => {
-
+    
     const [list, setList] = useState<Activity[]>([]);
     const [activitySelected, setActivitySelected] = useState<Activity | null>(null);
     const [filter, setFilter] = useState<{
@@ -61,7 +64,8 @@ const Accountant: React.FC = (props: any) => {
         activity: activitySelected,
         createActivity: props.createActivity,
         editActivity: props.editActivity,
-        categories: props.categories
+        categories: props.categories,
+        loading: props.loading
     });
     const [presentFilter, dismissFilter] = useIonModal(FilterView, {
         onDismiss: handleDismissFilter,
@@ -193,6 +197,7 @@ const Accountant: React.FC = (props: any) => {
                 </IonFabButton>
             </IonFab>
 
+            <Loading showLoading={props.loading}/>
         </div>
     );
 };
@@ -202,7 +207,8 @@ const mapStateToProps = (state: any) => {
         activities: Object.values(state.activity),
         amountIn: state.accounting.amountIn,
         amountOut: state.accounting.amountOut,
-        categories: Object.values(state.category)
+        categories: Object.values(state.category),
+        loading: createLoadingSelector([ACTIVITY])(state)
     }
 }
 

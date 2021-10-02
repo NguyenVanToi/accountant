@@ -19,6 +19,7 @@ import { deleteCategory, editCategory, fetchCategories, createCategory } from '.
 
 const CategoryView: React.FC = (props: any) => {
     const [list, setList] = useState<Category[]>([]);
+    const [showLoading, setShowLoading] = useState(true);
     useEffect(() => {
         const fetchCategories = async () => {
             props.fetchCategories();
@@ -59,12 +60,12 @@ const CategoryView: React.FC = (props: any) => {
 
     const renderList = () => {
         return (
-            <IonList>
+            <IonList className="list">
                 {
                     list.map((item: Category) => (
                         <IonItemSliding key={item?.id}>
                             <IonItem onClick={() => handleCategory(item)}>
-                                <IonIcon icon={item?.image} color="primary"/>
+                                <IonIcon icon={item?.image} color="primary" slot="start"/>
                                 <IonLabel>{item?.code} - {item?.name}</IonLabel>
                             </IonItem>
                             <IonItemOptions side="end">

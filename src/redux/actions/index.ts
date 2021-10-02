@@ -1,9 +1,10 @@
-import { CREATE_ACTIVITY, DELETE_ACTIVITY, EDIT_ACTIVITY, FETCH_ACTIVITIES } from './type';
+import { ACTIVITY_ERROR, ACTIVITY_REQUEST, CREATE_ACTIVITY, DELETE_ACTIVITY, EDIT_ACTIVITY, FETCH_ACTIVITIES, ACTIVITY_COMPLETE } from './type';
 import { AccountingApi } from '../../_core/api/accountingApi';
 import { Activity, UpdateActivityDto } from '../../_core/api/api';
 import moment from 'moment';
 
 export const fetchActivities = (filter?: any) => async (dispatch: any) =>{
+    dispatch({type: ACTIVITY_REQUEST});
     const api = new AccountingApi();
     let filterStr = [];
     let query = {};
@@ -21,14 +22,28 @@ export const fetchActivities = (filter?: any) => async (dispatch: any) =>{
     filterStr.push(`created_at||$gte||${moment(createdAt).startOf('day').toISOString()}`);
         filterStr.push(`created_at||$lte||${moment(createdAt).endOf('day').toISOString()}`);
     query = {filter: [...filterStr]};    
-    const response = await api.activities.getManyBaseActivityControllerActivity(query);
-    return dispatch({type: FETCH_ACTIVITIES, payload: response.data});
+    
+    try {
+        const response = await api.activities.getManyBaseActivityControllerActivity(query);
+        return dispatch({type: FETCH_ACTIVITIES, payload: response.data});
+    } catch (e) {
+        return dispatch({type: ACTIVITY_ERROR, payload: {message: e.message}});
+    } finally {
+        return dispatch({type: ACTIVITY_COMPLETE})
+    }
 }
 
 export const createActivity = (activity: Activity) => async (dispatch: any) => {
     const api = new AccountingApi();
-    const response = await api.activities.createOneBaseActivityControllerActivity(activity);
-    return dispatch({type: CREATE_ACTIVITY, payload: response.data });
+    try {
+        dispatch({type: ACTIVITY_REQUEST});
+        const response = await api.activities.createOneBaseActivityControllerActivity(activity);
+        return dispatch({type: CREATE_ACTIVITY, payload: response.data });
+    } catch (e) {
+        return dispatch({type: ACTIVITY_ERROR, payload: {message: e.message}});
+    } finally {
+        return dispatch({type: ACTIVITY_COMPLETE})
+    }
 }
 
 export const editActivity = (activity: Activity) => async (dispatch: any, getState: any) => {
