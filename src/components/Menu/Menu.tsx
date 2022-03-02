@@ -8,11 +8,16 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
-} from '@ionic/react';
+} from "@ionic/react";
 
-import { useLocation } from 'react-router-dom';
-import { searchOutline, newspaperOutline, layersOutline, bookOutline } from 'ionicons/icons';
-import './Menu.css';
+import { useLocation } from "react-router-dom";
+import {
+  searchOutline,
+  newspaperOutline,
+  layersOutline,
+  bookOutline,
+} from "ionicons/icons";
+import "./Menu.css";
 
 interface AppPage {
   url: string;
@@ -24,33 +29,40 @@ interface AppPage {
 
 const appPages: AppPage[] = [
   {
-    title: 'Chi tiêu',
-    url: '/page/accountant',
+    title: "Chi tiêu",
+    url: "/page/accountant",
     iosIcon: newspaperOutline,
     mdIcon: newspaperOutline,
-    color: 'medium'
+    color: "medium",
   },
   {
-    title: 'Quản lý danh mục',
-    url: '/page/category',
+    title: "Quản lý danh mục",
+    url: "/page/category",
     iosIcon: layersOutline,
     mdIcon: layersOutline,
-    color: 'medium'
+    color: "medium",
   },
   {
-    title: 'Tra cứu',
-    url: '/page/search',
+    title: "Tra cứu",
+    url: "/page/search",
     iosIcon: searchOutline,
     mdIcon: searchOutline,
-    color: 'medium'
+    color: "medium",
   },
   {
-    title: 'Thống kê',
-    url: '/page/summary',
+    title: "Thống kê",
+    url: "/page/summary",
     iosIcon: bookOutline,
     mdIcon: bookOutline,
-    color: 'medium'
-  }
+    color: "medium",
+  },
+  {
+    title: "Quản lý số nợ",
+    url: "/page/manager",
+    iosIcon: bookOutline,
+    mdIcon: bookOutline,
+    color: "medium",
+  },
 ];
 
 const labels: any[] = [];
@@ -67,8 +79,25 @@ const Menu: React.FC = () => {
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={`${location.pathname === appPage.url ? 'selected' : ''} item-menu`} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} color={location.pathname === appPage.url ? 'primary' : appPage?.color}/>
+                <IonItem
+                  className={`${
+                    location.pathname === appPage.url ? "selected" : ""
+                  } item-menu`}
+                  routerLink={appPage.url}
+                  routerDirection="none"
+                  lines="none"
+                  detail={false}
+                >
+                  <IonIcon
+                    slot="start"
+                    ios={appPage.iosIcon}
+                    md={appPage.mdIcon}
+                    color={
+                      location.pathname === appPage.url
+                        ? "primary"
+                        : appPage?.color
+                    }
+                  />
                   <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>
               </IonMenuToggle>

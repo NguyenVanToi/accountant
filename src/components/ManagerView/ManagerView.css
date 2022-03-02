@@ -1,0 +1,23 @@
+.manager-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.total-block {
+  margin-top: auto;
+  border-top: 1px solid #f2f2f2;
+}
+.total-block ion-label {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.total-block .price {
+  color: red;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.form {
+  height: calc(100vh - 44px);
+  display: flex;
+  flex-direction: column;
+}
