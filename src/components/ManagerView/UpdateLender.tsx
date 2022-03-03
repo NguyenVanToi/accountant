@@ -45,7 +45,24 @@ const UpdateLender: React.FC<{
   } = useForm({
     defaultValues: { ...lender },
   });
+  const convertCurrency2Number = (value: any) => {
+    if (value != null && typeof value == "string") {
+      return value.replace(/,/g, "");
+    } else {
+      return value;
+    }
+  };
   const onSubmit = (value: any) => {
+    console.log(value);
+    console.log(lender);
+
+    const updatedLender = {
+      ...value,
+      money: +convertCurrency2Number(value.money),
+    };
+    if (lender && lender.id) {
+      editLender(updatedLender, lender);
+    }
     onDismiss();
     return;
   };
@@ -62,7 +79,7 @@ const UpdateLender: React.FC<{
         </IonToolbar>
       </IonHeader>
 
-      <form className="form container">
+      <form className="form container" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
           <IonLabel className="label">Tên</IonLabel>
           <IonInput
@@ -106,7 +123,7 @@ const UpdateLender: React.FC<{
           />
         </div>
         <div className="form-buttons">
-          <IonButton expand="block" fill="solid">
+          <IonButton expand="block" fill="solid" type="submit">
             Lưu
           </IonButton>
         </div>

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import "./../../global.css";
 import "./ManagerView.css";
-import { matchSummary } from "../../redux/actions/summaryAction";
 import {
   IonIcon,
   IonItem,
@@ -16,29 +15,20 @@ import {
 import { createOutline, trash } from "ionicons/icons";
 import CurrencyFormat from "react-currency-format";
 import UpdateLender from "./UpdateLender";
+import {
+  createLender,
+  deleteLender,
+  editLender,
+  fetchLenders,
+} from "../../redux/actions/lenderAction";
 
 const ManagerView: React.FC = (props: any) => {
-  const data = [
-    {
-      id: 1,
-      name: "Nha A",
-      description: "Moi tra",
-      money: 5000000,
-    },
-    {
-      id: 2,
-      name: "Nha B",
-      money: 1000000,
-    },
-    {
-      id: 3,
-      name: "Nha C",
-      description: "Moi tra",
-      money: 2000000,
-    },
-  ];
+  const { fetchLenders, createLender, editLender, deleteLender } = props;
+  const lenders: any[] = props.lenders;
   const [lenderSelected, setLenderSelected] = useState<any | null>(null);
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchLenders();
+  }, []);
 
   const handleDismiss = () => {
     dismiss();
@@ -46,8 +36,8 @@ const ManagerView: React.FC = (props: any) => {
   const [present, dismiss] = useIonModal(UpdateLender, {
     onDismiss: handleDismiss,
     lender: lenderSelected,
-    createLender: props.createLender,
-    editLender: props.editLender,
+    createLender: createLender,
+    editLender: editLender,
   });
   const handleLender = (lender?: any) => {
     if (lender && lender.id) {
@@ -64,7 +54,7 @@ const ManagerView: React.FC = (props: any) => {
     <div className="container manager-view">
       <IonList>
         {/* Multi-line sliding item with icon options on both sides */}
-        {data.map((item, idx) => (
+        {lenders.map((item, idx) => (
           <IonItemSliding
             id="item100"
             key={idx}
@@ -102,7 +92,7 @@ const ManagerView: React.FC = (props: any) => {
             <CurrencyFormat
               slot="end"
               className="price"
-              value={100000000}
+              value={props.total}
               thousandSeparator={true}
               displayType={"text"}
             />
@@ -118,10 +108,14 @@ const mapStateToProps = (state: any) => {
   console.log(state);
 
   return {
-    summaries: state.summary.data,
+    total: state.counting.total,
+    lenders: Object.values(state.lender),
   };
 };
 
 export default connect(mapStateToProps, {
-  matchSummary,
+  fetchLenders,
+  createLender,
+  editLender,
+  deleteLender,
 })(ManagerView);
