@@ -6,6 +6,7 @@ import summaryReducer from "./summaryReducer";
 import loadingReducer from "./loadingReducer";
 import countingReducer from "./countingReducer";
 import lenderReducer from "./lenderReducer";
+import transactionReducer from "./transactionReducer";
 
 export default combineReducers({
   activity: activityReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   loading: loadingReducer,
   counting: countingReducer,
   lender: lenderReducer,
+  transaction: transactionReducer,
 });

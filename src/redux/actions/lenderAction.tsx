@@ -2,6 +2,7 @@ import {
   CREATE_LENDER,
   DELETE_LENDER,
   EDIT_LENDER,
+  FETCH_LENDER,
   FETCH_LENDERS,
 } from "./type";
 
@@ -26,6 +27,20 @@ export const fetchLenders = () => async (dispatch: any) => {
     },
   ];
   return dispatch({ type: FETCH_LENDERS, payload: data });
+};
+
+export const fetchLender = (id: number) => async (dispatch: any) => {
+  // const api = new AccountingApi();
+  // const response = await api.category.createOneBaseCategoryControllerCategory(category as CreateCategoryDto);
+  return dispatch({
+    type: FETCH_LENDER,
+    payload: {
+      id: 1,
+      name: "Nha A",
+      description: "Moi tra",
+      money: 5000000,
+    },
+  });
 };
 
 export const createLender = (lender: any) => async (dispatch: any) => {

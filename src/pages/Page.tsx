@@ -17,6 +17,7 @@ import SummaryView from "../components/SummaryView/SummaryView";
 import Accountant from "../components/Accountant/Accountant";
 import ManagerView from "../components/ManagerView/ManagerView";
 import { addCircleOutline } from "ionicons/icons";
+import TransactionView from "../components/ManagerView/TransactionView";
 
 const Page: React.FC = () => {
   let { name } = useParams<{ name: string }>();
@@ -41,6 +42,10 @@ const Page: React.FC = () => {
     case "manager":
       name = "Quản lý số nợ";
       component = <ManagerView />;
+      break;
+    case "transaction":
+      name = "Quản lý số nợ";
+      component = <TransactionView />;
       break;
     default:
       name = "page";

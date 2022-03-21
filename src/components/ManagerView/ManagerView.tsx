@@ -21,11 +21,14 @@ import {
   editLender,
   fetchLenders,
 } from "../../redux/actions/lenderAction";
+import TransactionView from "./TransactionView";
+import { useHistory } from "react-router";
 
 const ManagerView: React.FC = (props: any) => {
   const { fetchLenders, createLender, editLender, deleteLender } = props;
   const lenders: any[] = props.lenders;
   const [lenderSelected, setLenderSelected] = useState<any | null>(null);
+  const history = useHistory();
   useEffect(() => {
     fetchLenders();
   }, []);
@@ -39,6 +42,7 @@ const ManagerView: React.FC = (props: any) => {
     createLender: createLender,
     editLender: editLender,
   });
+
   const handleLender = (lender?: any) => {
     if (lender && lender.id) {
       setLenderSelected(lender);
@@ -50,6 +54,15 @@ const ManagerView: React.FC = (props: any) => {
     });
   };
 
+  const goToDetail = (lender: any) => {
+    if (lender && lender.id) {
+      setLenderSelected(lender);
+    } else {
+      setLenderSelected(null);
+    }
+    history.push(`/page/transaction?lenderId=1`);
+  };
+
   return (
     <div className="container manager-view">
       <IonList>
@@ -58,7 +71,7 @@ const ManagerView: React.FC = (props: any) => {
           <IonItemSliding
             id="item100"
             key={idx}
-            onClick={() => handleLender(item)}
+            onClick={() => goToDetail(item)}
           >
             <IonItem>
               <IonLabel>
@@ -76,7 +89,11 @@ const ManagerView: React.FC = (props: any) => {
 
             <IonItemOptions side="end">
               <IonItemOption color="danger">
-                <IonIcon slot="icon-only" icon={createOutline} />
+                <IonIcon
+                  slot="icon-only"
+                  icon={createOutline}
+                  onClick={handleLender}
+                />
               </IonItemOption>
               <IonItemOption>
                 <IonIcon slot="icon-only" icon={trash} />
