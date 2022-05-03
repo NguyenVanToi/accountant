@@ -28,16 +28,14 @@ const UpdateTransaction: React.FC<{
   onDismiss: () => void;
   editTransaction: any;
   createTransaction: any;
-}> = ({ transaction, onDismiss, editTransaction, createTransaction }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const listIcons = [
-    documentTextOutline,
-    cogOutline,
-    homeOutline,
-    personOutline,
-    hammerOutline,
-    constructOutline,
-  ];
+  lenderId: number;
+}> = ({
+  transaction,
+  onDismiss,
+  editTransaction,
+  createTransaction,
+  lenderId,
+}) => {
   const {
     register,
     handleSubmit,
@@ -53,16 +51,24 @@ const UpdateTransaction: React.FC<{
       return value;
     }
   };
+  console.log(lenderId);
   const onSubmit = (value: any) => {
     console.log(value);
-    console.log(transaction);
-
-    const updatedTransaction = {
+    const dataTrans = {
       ...value,
       money: +convertCurrency2Number(value.money),
+      rate: 1,
+      name: "Trả nợ",
+      lender: {
+        id: lenderId,
+      },
     };
+    console.log(dataTrans);
     if (transaction && transaction.id) {
-      editTransaction(updatedTransaction, transaction);
+      editTransaction(dataTrans, transaction);
+    } else {
+      console.log("create");
+      createTransaction(dataTrans);
     }
     onDismiss();
     return;

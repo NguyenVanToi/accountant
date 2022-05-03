@@ -77,6 +77,11 @@ span {
   width: calc((100% - 10px) / 2) !important;
 }
 
+.icon-menu-add {
+  color: var(--ion-color-primary);
+  font-size: 1.5rem;
+}
+
 .upload .fake {
   border: 2px dashed var(--ion-color-light);
   display: flex;

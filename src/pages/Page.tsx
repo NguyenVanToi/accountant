@@ -1,14 +1,4 @@
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonPage } from "@ionic/react";
 import { useParams } from "react-router";
 import "./Page.css";
 import Category from "../components/Category/Category";
@@ -18,10 +8,12 @@ import Accountant from "../components/Accountant/Accountant";
 import ManagerView from "../components/ManagerView/ManagerView";
 import { addCircleOutline } from "ionicons/icons";
 import TransactionView from "../components/ManagerView/TransactionView";
+import { useState } from "react";
 
 const Page: React.FC = () => {
   let { name } = useParams<{ name: string }>();
   let component: any = null;
+
   switch (name) {
     case "accountant":
       name = "Chi tiêu";
@@ -40,11 +32,9 @@ const Page: React.FC = () => {
       component = <SummaryView />;
       break;
     case "manager":
-      name = "Quản lý số nợ";
       component = <ManagerView />;
       break;
     case "transaction":
-      name = "Quản lý số nợ";
       component = <TransactionView />;
       break;
     default:
@@ -54,21 +44,7 @@ const Page: React.FC = () => {
 
   const add = () => {};
 
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>{name}</IonTitle>
-          <IonIcon slot="end" icon={addCircleOutline} onClick={add} />
-        </IonToolbar>
-      </IonHeader>
-
-      <IonContent fullscreen>{component ? component : null}</IonContent>
-    </IonPage>
-  );
+  return <IonPage>{component ? component : null}</IonPage>;
 };
 
 export default Page;

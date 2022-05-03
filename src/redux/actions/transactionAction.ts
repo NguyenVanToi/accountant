@@ -1,3 +1,4 @@
+import { AccountingApi } from "./../../_core/api/accountingApi";
 import {
   CREATE_TRANSACTION,
   DELETE_TRANSACTION,
@@ -7,42 +8,32 @@ import {
 
 export const fetchTransactions =
   (lenderId: number) => async (dispatch: any) => {
-    const data = [
-      {
-        id: 1,
-        description: "Moi tra",
-        money: 2000000,
-        lenderId: 1,
-        createAt: "12/11/2021",
-      },
-      {
-        id: 2,
-        money: 1000000,
-        lenderId: 1,
-        createAt: "12/11/2021",
-      },
-      {
-        id: 3,
-        description: "Moi tra",
-        money: 2000000,
-        lenderId: 1,
-        createAt: "12/11/2021",
-      },
-    ];
-    return dispatch({ type: FETCH_TRANSACTIONS, payload: data });
+    const api = new AccountingApi();
+    const response =
+      await api.transaction.transactionControllerGetTransactionsOfLender(
+        lenderId
+      );
+    return dispatch({ type: FETCH_TRANSACTIONS, payload: response.data });
   };
 
 export const createTransaction =
   (transaction: any) => async (dispatch: any) => {
-    // const api = new AccountingApi();
-    // const response = await api.category.createOneBaseCategoryControllerCategory(category as CreateCategoryDto);
-    return dispatch({ type: CREATE_TRANSACTION, payload: transaction });
+    const api = new AccountingApi();
+    const response =
+      await api.transaction.createOneBaseTransactionControllerTransaction(
+        transaction
+      );
+    const transExtend = { ...transaction, ...response.data };
+    return dispatch({ type: CREATE_TRANSACTION, payload: transExtend });
   };
 
 export const editTransaction =
   (transactionUpdated: any, oldTransaction: any) => async (dispatch: any) => {
-    // const api = new AccountingApi();
-    // const response = await api.category.createOneBaseCategoryControllerCategory(category as CreateCategoryDto);
+    const api = new AccountingApi();
+    await api.category.updateOneBaseCategoryControllerCategory(
+      transactionUpdated.id,
+      transactionUpdated
+    );
     return dispatch({
       type: EDIT_TRANSACTION,
       payload: {
@@ -54,7 +45,7 @@ export const editTransaction =
   };
 export const deleteTransaction =
   (transaction: any) => async (dispatch: any) => {
-    // const api = new AccountingApi();
-    // const response = await api.category.createOneBaseCategoryControllerCategory(category as CreateCategoryDto);
+    const api = new AccountingApi();
+    await api.category.deleteOneBaseCategoryControllerCategory(transaction.id);
     return dispatch({ type: DELETE_TRANSACTION, payload: transaction });
   };

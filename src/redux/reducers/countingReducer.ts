@@ -1,5 +1,6 @@
 import {
   CREATE_LENDER,
+  CREATE_TRANSACTION,
   DELETE_LENDER,
   EDIT_LENDER,
   FETCH_LENDER,
@@ -7,6 +8,7 @@ import {
 } from "./../actions/type";
 import { ActionInterface } from "../actions/type";
 import { reduce } from "lodash";
+import { Transaction } from "../../_core/api/api";
 const INITIAL_STATE = {
   total: 0,
 };

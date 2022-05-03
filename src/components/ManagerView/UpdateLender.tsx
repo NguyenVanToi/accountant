@@ -59,9 +59,12 @@ const UpdateLender: React.FC<{
     const updatedLender = {
       ...value,
       money: +convertCurrency2Number(value.money),
+      code: 1,
     };
     if (lender && lender.id) {
       editLender(updatedLender, lender);
+    } else {
+      createLender(updatedLender);
     }
     onDismiss();
     return;
