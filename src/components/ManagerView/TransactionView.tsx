@@ -50,6 +50,7 @@ const TransactionView = (props: IPropsTransaction) => {
     transactions,
     createTransaction,
     editTransaction,
+    deleteTransaction,
   } = props;
 
   const location = useLocation();
@@ -88,6 +89,12 @@ const TransactionView = (props: IPropsTransaction) => {
     present({
       cssClass: "modal custom",
     });
+  };
+
+  const deleteTrans = (e: any, transaction: any) => {
+    console.log("trans", transaction);
+    e.stopPropagation();
+    deleteTransaction(transaction);
   };
 
   return (
@@ -138,7 +145,11 @@ const TransactionView = (props: IPropsTransaction) => {
                       <IonIcon slot="icon-only" icon={createOutline} />
                     </IonItemOption>
                     <IonItemOption>
-                      <IonIcon slot="icon-only" icon={trash} />
+                      <IonIcon
+                        slot="icon-only"
+                        icon={trash}
+                        onClick={(e) => deleteTrans(e, item)}
+                      />
                     </IonItemOption>
                   </IonItemOptions>
                 </IonItemSliding>

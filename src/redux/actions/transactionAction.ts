@@ -4,6 +4,7 @@ import {
   DELETE_TRANSACTION,
   EDIT_TRANSACTION,
   FETCH_TRANSACTIONS,
+  FETCH_TRANSACTIONS_BY_LENDER,
 } from "./type";
 
 export const fetchTransactions =
@@ -13,9 +14,20 @@ export const fetchTransactions =
       await api.transaction.transactionControllerGetTransactionsOfLender(
         lenderId
       );
+    return dispatch({
+      type: FETCH_TRANSACTIONS_BY_LENDER,
+      payload: response.data,
+    });
+  };
+export const fetchTransactionsData =
+  (filter?: any) => async (dispatch: any) => {
+    const api = new AccountingApi();
+    const response =
+      await api.transaction.getManyBaseTransactionControllerTransaction({
+        filter: [...filter],
+      });
     return dispatch({ type: FETCH_TRANSACTIONS, payload: response.data });
   };
-
 export const createTransaction =
   (transaction: any) => async (dispatch: any) => {
     const api = new AccountingApi();
@@ -30,7 +42,7 @@ export const createTransaction =
 export const editTransaction =
   (transactionUpdated: any, oldTransaction: any) => async (dispatch: any) => {
     const api = new AccountingApi();
-    await api.category.updateOneBaseCategoryControllerCategory(
+    await api.transaction.updateOneBaseTransactionControllerTransaction(
       transactionUpdated.id,
       transactionUpdated
     );
@@ -46,6 +58,8 @@ export const editTransaction =
 export const deleteTransaction =
   (transaction: any) => async (dispatch: any) => {
     const api = new AccountingApi();
-    await api.category.deleteOneBaseCategoryControllerCategory(transaction.id);
+    await api.transaction.deleteOneBaseTransactionControllerTransaction(
+      transaction.id
+    );
     return dispatch({ type: DELETE_TRANSACTION, payload: transaction });
   };

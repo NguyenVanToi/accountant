@@ -23,6 +23,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import "./global.css";
 import Menu from "./components/Menu/Menu";
+import FilterTransactions from "./pages/FilterTransactions";
 
 const App: React.FC = () => {
   return (
@@ -36,6 +37,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/page/:name" exact={true}>
               <Page />
+            </Route>
+            <Route path="/filterTransactions" exact={true}>
+              <FilterTransactions />
             </Route>
           </IonRouterOutlet>
         </IonSplitPane>

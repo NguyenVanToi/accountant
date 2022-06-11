@@ -8,7 +8,6 @@ import {
 } from "./../actions/type";
 import { ActionInterface } from "../actions/type";
 import { reduce } from "lodash";
-import { Transaction } from "../../_core/api/api";
 const INITIAL_STATE = {
   total: 0,
 };
@@ -20,7 +19,7 @@ const countingReducer = (state = INITIAL_STATE, action: ActionInterface) => {
         total: reduce(
           action.payload,
           (init: number, lender: any) => {
-            return init + lender.money;
+            return init + +lender.money;
           },
           0
         ),
@@ -28,17 +27,18 @@ const countingReducer = (state = INITIAL_STATE, action: ActionInterface) => {
     case CREATE_LENDER:
       return {
         ...state,
-        total: state.total + action.payload.money,
+        total: state.total + +action.payload.money,
       };
     case EDIT_LENDER:
       return {
         ...state,
-        total: state.total + action.payload.newMoney - action.payload.oldMoney,
+        total:
+          state.total + +action.payload.newMoney - +action.payload.oldMoney,
       };
     case DELETE_LENDER:
       return {
         ...state,
-        total: state.total - action.payload.money,
+        total: state.total - +action.payload.money,
       };
     default:
       return state;

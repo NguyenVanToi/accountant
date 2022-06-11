@@ -34,10 +34,11 @@ import {
 } from "../../redux/actions/lenderAction";
 import { useHistory } from "react-router";
 import { Lender } from "../../_core/api/api";
+import { sortBy } from "lodash";
 
 const ManagerView: React.FC = (props: any) => {
   const { fetchLenders, createLender, editLender, deleteLender } = props;
-  const lenders: any[] = props.lenders;
+  const [lenders, setLenders] = useState<any[]>([]);
   const [lenderSelected, setLenderSelected] = useState<any | null>(null);
   const history = useHistory();
   const name = "Quản lý số nợ";
@@ -45,6 +46,12 @@ const ManagerView: React.FC = (props: any) => {
   useEffect(() => {
     fetchLenders();
   }, []);
+
+  useEffect(() => {
+    if (props.lenders && props.lenders.length > 0) {
+      setLenders(sortBy(props.lenders, "name"));
+    }
+  }, [props.lenders]);
 
   const handleDismiss = () => {
     dismiss();
@@ -101,7 +108,7 @@ const ManagerView: React.FC = (props: any) => {
 
       <IonContent fullscreen>
         <div className="container manager-view">
-          <IonList>
+          <IonList className="list-lender">
             {/* Multi-line sliding item with icon options on both sides */}
             {lenders.map((item, idx) => (
               <IonItemSliding

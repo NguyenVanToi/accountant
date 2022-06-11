@@ -12,15 +12,6 @@ import {
 } from "@ionic/react";
 import { checkmarkOutline, arrowBackOutline } from "ionicons/icons";
 import { Controller, useForm } from "react-hook-form";
-import { Category } from "../../_core/api/api";
-import {
-  cogOutline,
-  homeOutline,
-  personOutline,
-  documentTextOutline,
-  constructOutline,
-  hammerOutline,
-} from "ionicons/icons";
 import { useEffect, useState } from "react";
 import CurrencyFormat from "react-currency-format";
 const UpdateTransaction: React.FC<{
@@ -97,7 +88,7 @@ const UpdateTransaction: React.FC<{
             className="select date"
             displayFormat="DD/MM/YY"
             placeholder="__/__/__"
-            min="2021-01-01"
+            min="2019-01-01"
             {...register("date", { required: true })}
           ></IonDatetime>
           {errors.date && <span className="mess-error">(*) Bắt buộc.</span>}

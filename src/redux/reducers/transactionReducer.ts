@@ -4,14 +4,17 @@ import {
   EDIT_TRANSACTION,
   FETCH_TRANSACTION,
   FETCH_TRANSACTIONS,
+  FETCH_TRANSACTIONS_BY_LENDER,
 } from "./../actions/type";
 import { ActionInterface } from "../actions/type";
 import { omit, mapKeys } from "lodash";
 
 const transactionReducer = (state = {}, action: ActionInterface) => {
   switch (action.type) {
-    case FETCH_TRANSACTIONS:
+    case FETCH_TRANSACTIONS_BY_LENDER:
       console.log(action.payload);
+      return { ...mapKeys(action.payload, "id") };
+    case FETCH_TRANSACTIONS:
       return { ...mapKeys(action.payload, "id") };
     case FETCH_TRANSACTION:
       return { ...state, [action.payload.id]: action.payload };
