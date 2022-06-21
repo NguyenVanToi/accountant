@@ -27,9 +27,11 @@ const FilterTransactions: React.FC = (props: any) => {
     from?: string;
     to?: string;
     sortBy?: string;
+    order?: string;
   }>({
     from: moment().subtract(1, "days").format("YYYY-MM-DD"),
     to: moment().format("YYYY-MM-DD"),
+    order: "ASC",
   });
 
   useEffect(() => {
@@ -53,11 +55,16 @@ const FilterTransactions: React.FC = (props: any) => {
     const toDate = filters.to
       ? moment(filters.to).format("YYYY-MM-DD")
       : moment().format("YYYY-MM-DD");
-
     console.log("toDate", toDate);
     console.log("fromDate", fromDate);
     const query = [`date||$gte||${fromDate}`, `date||$lte||${toDate}`];
-    props.fetchTransactionsData(query);
+    const sort: string[] = [];
+    if (filters.sortBy) {
+      if (filters.sortBy === "money") {
+        sort.push(`money,${filters.order}`);
+      }
+    }
+    props.fetchTransactionsData(query, sort);
   };
   return (
     <IonPage>
@@ -74,10 +81,10 @@ const FilterTransactions: React.FC = (props: any) => {
           <div className="filter-block">
             <div className="filter-block-left filter-block-item">
               <div className="filter-control">
-                <IonLabel>Từ</IonLabel>
+                <IonLabel>Từ: </IonLabel>
                 <IonDatetime
                   className="datetime"
-                  displayFormat="YYYY-MM-DD"
+                  displayFormat="DD-MM-YYYY"
                   min="2019-01-01"
                   value={filters.from}
                   name="from"
@@ -85,10 +92,10 @@ const FilterTransactions: React.FC = (props: any) => {
                 />
               </div>
               <div className="filter-control">
-                <IonLabel className="to">Đến</IonLabel>
+                <IonLabel className="to">Đến: </IonLabel>
                 <IonDatetime
                   className="datetime"
-                  displayFormat="YYYY-MM-DD"
+                  displayFormat="DD-MM-YYYY"
                   min="2019-01-01"
                   value={filters.to}
                   name="to"
@@ -105,9 +112,27 @@ const FilterTransactions: React.FC = (props: any) => {
                   setFilters({ ...filters, sortBy: e.detail.value })
                 }
               >
-                <IonSelectOption value="ABC">A-Z</IonSelectOption>
-                <IonSelectOption value="Money">Money</IonSelectOption>
+                <IonSelectOption value="name">Name</IonSelectOption>
+                <IonSelectOption value="money">Số tiền</IonSelectOption>
               </IonSelect>
+              <div className="group-icon">
+                <div
+                  className={`sort-item ${
+                    filters.order === "ASC" ? "active" : ""
+                  }`}
+                  onClick={() => setFilters({ ...filters, order: "ASC" })}
+                >
+                  <img src="/assets/icon/arrowASC.png" alt="icon" />
+                </div>
+                <div
+                  className={`sort-item ${
+                    filters.order === "DESC" ? "active" : ""
+                  }`}
+                  onClick={() => setFilters({ ...filters, order: "DESC" })}
+                >
+                  <img src="/assets/icon/arrowDESC.png" alt="icon" />
+                </div>
+              </div>
             </div>
             <IonButton color="primary btn-apply" onClick={onSubmit}>
               Áp dụng

@@ -264,7 +264,8 @@ ion-textarea.form-control {
 /* FILTER TRANSACTION */
 .filter-block {
   display: flex;
-  background-color: #242424;
+  background-color: rgba(var(--ion-background-color), .5);
+  border: 1px solid #f2f2f2;
   padding: 16px;
   margin: 0 -16px;
   flex-wrap: wrap;
@@ -272,6 +273,27 @@ ion-textarea.form-control {
 .filter-block .filter-block-item {
   flex: 1;
   flex-basis: 50%;
+}
+.filter-block .filter-block-right .group-icon {
+  padding-left: 20px;
+  display: flex;
+}
+.filter-block-right .group-icon .sort-item {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+.filter-block-right .group-icon .sort-item img {
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}
+.sort-item.active {
+  background-color: rgb(235, 163, 69, .25);
+}
+.filter-block-right .group-icon .sort-item:first-child {
+  margin-right: 10px;
 }
 .filter-block .btn-apply {
   height: 2rem;
