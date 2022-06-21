@@ -25,6 +25,7 @@ export const fetchTransactionsData =
     const response =
       await api.transaction.getManyBaseTransactionControllerTransaction({
         filter: [...filter],
+        join: ["lender||name"],
       });
     return dispatch({ type: FETCH_TRANSACTIONS, payload: response.data });
   };

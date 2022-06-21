@@ -260,3 +260,50 @@ ion-textarea.form-control {
 .drop-item.icon {
   font-size: 1.4rem;
 }
+
+/* FILTER TRANSACTION */
+.filter-block {
+  display: flex;
+  background-color: #242424;
+  padding: 16px;
+  margin: 0 -16px;
+  flex-wrap: wrap;
+}
+.filter-block .filter-block-item {
+  flex: 1;
+  flex-basis: 50%;
+}
+.filter-block .btn-apply {
+  height: 2rem;
+  margin-top: .5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.filter-control {
+  display: flex;
+  align-items: center;
+}
+.filter-control .to {
+  /* margin-left: 1rem; */
+}
+.filter-control .datetime {
+  --padding-start: 5px;
+}
+.item-trans-right {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  flex-shrink: 0;
+  align-items: flex-end;
+}
+.item-trans-right .des {
+  color: rgba(var(--ion-text-color-rgb), .4);
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-size: 14px;
+  line-height: normal;
+  text-overflow: inherit;
+  overflow: inherit;
+}
