@@ -20,12 +20,12 @@ export const fetchTransactions =
     });
   };
 export const fetchTransactionsData =
-  (filter?: any, sort?: any) => async (dispatch: any) => {
+  (filter?: any, sort?: any, join?: any) => async (dispatch: any) => {
     const api = new AccountingApi();
     const response =
       await api.transaction.getManyBaseTransactionControllerTransaction({
         filter: [...filter],
-        join: ["lender||name"],
+        join,
         sort,
       });
     return dispatch({ type: FETCH_TRANSACTIONS, payload: response.data });

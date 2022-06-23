@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import { fetchTransactionsData } from "../../redux/actions/transactionAction";
 import { Transaction } from "../../_core/api/api";
 import CurrencyFormat from "react-currency-format";
+import { filter } from "lodash";
 
 const FilterTransactions: React.FC = (props: any) => {
   const [transactions, setTransctions] = useState<Transaction[]>([]);
@@ -29,7 +30,7 @@ const FilterTransactions: React.FC = (props: any) => {
     sortBy?: string;
     order?: string;
   }>({
-    from: moment().subtract(1, "days").format("YYYY-MM-DD"),
+    from: moment("2022-01-01").format("YYYY-MM-DD"),
     to: moment().format("YYYY-MM-DD"),
     order: "ASC",
   });
@@ -60,8 +61,13 @@ const FilterTransactions: React.FC = (props: any) => {
     const query = [`date||$gte||${fromDate}`, `date||$lte||${toDate}`];
     const sort: string[] = [];
     if (filters.sortBy) {
-      if (filters.sortBy === "money") {
-        sort.push(`money,${filters.order}`);
+      switch (filters.sortBy) {
+        case "money":
+          sort.push(`money,${filters.order}`);
+          break;
+        case "date":
+          sort.push(`date,${filters.order}`);
+          break;
       }
     }
     props.fetchTransactionsData(query, sort);
@@ -112,7 +118,7 @@ const FilterTransactions: React.FC = (props: any) => {
                   setFilters({ ...filters, sortBy: e.detail.value })
                 }
               >
-                <IonSelectOption value="name">Name</IonSelectOption>
+                <IonSelectOption value="date">Ngày</IonSelectOption>
                 <IonSelectOption value="money">Số tiền</IonSelectOption>
               </IonSelect>
               <div className="group-icon">
@@ -144,7 +150,7 @@ const FilterTransactions: React.FC = (props: any) => {
               {/* Multi-line sliding item with icon options on both sides */}
               {transactions &&
                 transactions.map((item, idx) => (
-                  <IonItem>
+                  <IonItem key={item.id}>
                     <IonLabel>
                       <h2>{item?.lender?.name}</h2>
                       <p>{item?.description}</p>
@@ -159,7 +165,9 @@ const FilterTransactions: React.FC = (props: any) => {
                         />
                         <span className="unit">đ</span>
                       </div>
-                      <p className="des">{item?.description}</p>
+                      <p className="des">
+                        {moment(item?.date).format("DD-MM-YYYY")}
+                      </p>
                     </div>
                   </IonItem>
                 ))}
@@ -174,7 +182,7 @@ const FilterTransactions: React.FC = (props: any) => {
 const mapStateToProps = (state: any): { transactions: Transaction[] } => {
   console.log(state);
   return {
-    transactions: Object.values(state.transaction),
+    transactions: state.transaction.data,
   };
 };
 

@@ -181,7 +181,7 @@ const mapStateToProps = (
 ): { transactions: Transaction[]; lenders: Lender[] } => {
   console.log(state);
   return {
-    transactions: Object.values(state.transaction),
+    transactions: state.transaction.data,
     lenders: Object.values(state.lender),
   };
 };
